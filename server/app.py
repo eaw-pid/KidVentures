@@ -11,7 +11,7 @@ from config import app, db, api
 # Add your model imports
 
 from models import *
-#from resources import *
+from resources import *
 # Views go here!
 
 @app.route('/')

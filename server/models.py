@@ -11,8 +11,8 @@ class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String, nullable=False)
-    email = db.Column(db.String, nullable=False)
+    username = db.Column(db.String, nullable=False, unique=True)
+    email = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
 
     def __repr__(self):
@@ -41,4 +41,59 @@ class User(db.Model, SerializerMixin):
     def validate_email(self, key, email):
         if '@' not in email:
             raise ValueError("Failed email validation")
+        elif any(user.email == email for user in User.query.all()):
+            raise ValueError("Email already associated with another account")
         return email
+    
+# class Activity(db.Model, SerializerMixin): 
+#     __tablename__ = "activities"
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     title = db.Column(db.String, nullable=False)
+#     description = (db.Column(db.String, nullable=False))
+#     location = db.Column(db.String, nullable=False)
+#     street_one = db.Column(db.String, nullable=False)
+#     street_two = db.Column(db.String)
+#     city = db.Column(db.String, nullable=False)
+#     state = db.Column(db.String, nullable=False)
+#     zip_code = db.Column(db.String, nullable=False)
+#     date = db.Column(db.DateTime, nullable=False)
+#     #age_group (should this be it's own class?)
+#     price = db.Column(db.Float)
+#     free = db.Column(db.Boolean, default=False, server_default="0") 
+#     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+
+#     def __repr__(self):
+#         return f'<{self.name}>'
+
+# class Category(db.Model, SerializerMixin):
+#     __tablename__ = "categories"
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     type = db.Column(db.String)
+
+#     def __repr__(self):
+#         return f'<{self.type}>'
+
+# class Signup(db.Model, SerializerMixin):
+#     __tablename__ = "signups"
+
+#     id - db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+#     activity_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
+#     created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+#     def __repr__(self):
+#         return f'<{self.user_id} {self.activity_id}>'
+
+# class Review(db.Model, SerializerMixin):
+#     __tablename__ = "reviews"
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+#     activity_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
+#     comments = db.Column(db.String, nullable=False)
+
+#     def __repr__(self):
+#         return f'<User:{self.user_id}, Activity: {self.activity_id}, Review: {self.notes}>'
+    

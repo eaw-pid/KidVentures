@@ -2,6 +2,7 @@ from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
+from datetime import datetime
 
 from config import db, bcrypt
 
@@ -10,11 +11,18 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = "users"
 
+    serialize_rules=('-signups.created_at',
+                     '-signups.user_id',
+                     '-reviews.user_id',)
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String, nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     _password_hash = db.Column(db.String, nullable=False)
 
+    signups = db.relationship("Signup", back_populates="user")
+    reviews = db.relationship("Review", back_populates="user")
+    
     def __repr__(self):
         return f'<{self.username}>'
     
@@ -45,55 +53,98 @@ class User(db.Model, SerializerMixin):
             raise ValueError("Email already associated with another account")
         return email
     
-# class Activity(db.Model, SerializerMixin): 
-#     __tablename__ = "activities"
+class Activity(db.Model, SerializerMixin): 
+    __tablename__ = "activities"
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     title = db.Column(db.String, nullable=False)
-#     description = (db.Column(db.String, nullable=False))
-#     location = db.Column(db.String, nullable=False)
-#     street_one = db.Column(db.String, nullable=False)
-#     street_two = db.Column(db.String)
-#     city = db.Column(db.String, nullable=False)
-#     state = db.Column(db.String, nullable=False)
-#     zip_code = db.Column(db.String, nullable=False)
-#     date = db.Column(db.DateTime, nullable=False)
-#     #age_group (should this be it's own class?)
-#     price = db.Column(db.Float)
-#     free = db.Column(db.Boolean, default=False, server_default="0") 
-#     category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+    serialize_rules = ('-categories.activity',
+                       '-categories.category',)
 
-#     def __repr__(self):
-#         return f'<{self.name}>'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
+    location = db.Column(db.String, nullable=False)
+    street_one = db.Column(db.String, nullable=False)
+    street_two = db.Column(db.String)
+    city = db.Column(db.String, nullable=False)
+    state = db.Column(db.String, nullable=False)
+    zip_code = db.Column(db.String, nullable=False)
+    start_time = db.Column(db.DateTime, nullable=False)
+    price = db.Column(db.Float)
+    free = db.Column(db.Boolean, default=False, server_default="0") 
+    registration_link = db.Column(db.String)
 
-# class Category(db.Model, SerializerMixin):
-#     __tablename__ = "categories"
+    categories = db.relationship("ActivityCategory", back_populates="activity")
+    signups = db.relationship("Signup", back_populates="activity")
+    reviews = db.relationship("Review", back_populates="activity")
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     type = db.Column(db.String)
+    @validates('zip_code')
+    def validate_zip_code(self, key, zip_code):
+        if len(zip_code) != 5:
+            raise ValueError("Zip Code must be 5 digits")
+        return zip_code
+        
+    def __repr__(self):
+        return f'<{self.title}>'
+    
 
-#     def __repr__(self):
-#         return f'<{self.type}>'
 
-# class Signup(db.Model, SerializerMixin):
-#     __tablename__ = "signups"
+class Category(db.Model, SerializerMixin):
+    __tablename__ = "categories"
 
-#     id - db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-#     activity_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
-#     created_at = db.Column(db.DateTime, server_default=db.func.now())
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String, nullable=False)
 
-#     def __repr__(self):
-#         return f'<{self.user_id} {self.activity_id}>'
+    categories = db.relationship("ActivityCategory", cascade="all,delete", back_populates="category")
 
-# class Review(db.Model, SerializerMixin):
-#     __tablename__ = "reviews"
+    def __repr__(self):
+        return f'<{self.type}>'
 
-#     id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
-#     activity_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
-#     comments = db.Column(db.String, nullable=False)
+class ActivityCategory(db.Model, SerializerMixin):
+    __tablename__ = "activity_categories"
 
-#     def __repr__(self):
-#         return f'<User:{self.user_id}, Activity: {self.activity_id}, Review: {self.notes}>'
+    id = db.Column(db.Integer, primary_key=True)
+    activity_id = db.Column(db.Integer, db.ForeignKey('activities.id'))
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.id'))
+
+    category = db.relationship("Category", back_populates="categories")
+    activity = db.relationship("Activity", back_populates="categories")
+
+    def __repr__(self):
+        return f'<Activity: {self.activity_id}, Category{self.category_id}>'
+
+
+class Signup(db.Model, SerializerMixin):
+    __tablename__ = "signups"
+
+    serialize_rules = ('-user',
+                       '-activity',)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    activity_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    user = db.relationship("User", back_populates="signups")
+    activity = db.relationship("Activity", back_populates="signups")
+
+    def __repr__(self):
+        return f'<UserId: {self.user_id}, ActivityId: {self.activity_id}>'
+    
+
+class Review(db.Model, SerializerMixin):
+    __tablename__ = "reviews"
+
+    serialize_rules = ('-user',
+                       '-activity',)
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"))
+    activity_id = db.Column(db.Integer, db.ForeignKey("activities.id"))
+    comments = db.Column(db.String, nullable=False)
+
+    user = db.relationship("User", back_populates="reviews")
+    activity = db.relationship("Activity", back_populates="reviews")
+
+    def __repr__(self):
+        return f'<User:{self.user_id}, Activity: {self.activity_id}, Review: {self.notes}>'
     

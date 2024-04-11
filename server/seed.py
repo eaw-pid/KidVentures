@@ -21,9 +21,9 @@ if __name__ == '__main__':
         db.session.query(Review).delete()
 
 #Create Users
-        user1 = User(username="user1", email="user1@gmail.com", _password_hash="Pass123")
-        user2 = User(username="user2", email="user2@gmail.com", _password_hash="Pass123")
-        user3 = User(username="user3", email="user3@gmail.com", _password_hash="Pass123")
+        user1 = User(username="user1", email="user1@gmail.com", password_hash="Pass123")
+        user2 = User(username="user2", email="user2@gmail.com", password_hash="Pass123")
+        user3 = User(username="user3", email="user3@gmail.com", password_hash="Pass123")
 
         db.session.add_all([user1, user2, user3])
         db.session.commit()

@@ -186,7 +186,7 @@ class CheckSession(Resource):
             return {}, 401
 
 class Logout(Resource):
-    def get(self):
+    def delete(self):
         if session.get("user_id"):
             del session["user_id"]
             return {"message": "You are logged out"}, 200

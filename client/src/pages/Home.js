@@ -1,6 +1,11 @@
-import React from "react";
+import React, {useContext, useEffect} from "react";
+
 
 function Home () {
+
+
+
+
     return(
         <h1>Home</h1>
     )

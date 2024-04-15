@@ -130,7 +130,19 @@ class SignupResource(Resource):
 
         return signups, 200
 
+class ReviewResource(Resource):
+    def get(self):
+        reviews = [review.to_dict() for review in Review.query.all()]
 
+        return reviews, 200
+
+class ReviewByActivityId(Resource):
+    def get(self, id):
+
+        reviews = [review.to_dict() for review in Review.query.filter_by(activity_id=id).all()]
+
+        return reviews, 200
+    
 class Login(Resource):
     def post(self):
         #get json data
@@ -198,6 +210,8 @@ api.add_resource(UserById, '/users/<int:id>')
 api.add_resource(ActivityResource, '/activities')
 api.add_resource(ActivityById, '/activities/<int:id>')
 api.add_resource(SignupResource, '/signups')
+api.add_resource(ReviewResource, '/reviews')
+api.add_resource(ReviewByActivityId, '/reviews/<int:id>')
 api.add_resource(Login, '/login')
 api.add_resource(UserSignup, '/signup')
 api.add_resource(CheckSession, '/check-session')

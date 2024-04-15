@@ -2,6 +2,7 @@ import App from "./components/App"
 import Login from "./pages/Login"
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
+import Activities from "./pages/Activities";
 
 const routes = [
     {
@@ -11,7 +12,7 @@ const routes = [
         children: [
         
             // {
-            //     path: "/",
+            //     path: "/home",
             //     element: <Home />
             // },
             {
@@ -22,10 +23,10 @@ const routes = [
                 path: "/signup",
                 element: <Signup />,
             },
-            // {
-            //     path: "/my-connections",
-            //     element: <MyConnects />,
-            // },
+            {
+                path: "/activities",
+                element: <Activities />,
+            },
             // {
             //     path: "/companies",
             //     element: <Companies />,

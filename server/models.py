@@ -57,7 +57,8 @@ class Activity(db.Model, SerializerMixin):
     __tablename__ = "activities"
 
     serialize_rules = ('-categories.activity',
-                       '-categories.category',)
+                       '-categories.category',
+                       )
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)

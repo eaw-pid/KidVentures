@@ -2,11 +2,12 @@ import React, { useContext } from 'react'
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { UserContext } from '../context/UserContext';
-
+import { useNavigate } from 'react-router-dom'
 
 function Login() {
 
     const {login} = useContext(UserContext)
+     const navigate = useNavigate()
 
     const formSchema = yup.object().shape({
         username: yup.string().required("Username required"),
@@ -30,7 +31,9 @@ function Login() {
             })
             .then(res => {
                 if(res.status == 200) {
-                    res.json().then(userData => login(userData))
+                    res.json().then(userData => {
+                        login(userData)
+                        navigate('/activities')})
                 } else {
                     res.json().then(data => console.log(data.error))
                 }

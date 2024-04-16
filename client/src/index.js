@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import { UserProvider } from "./context/UserContext.js";
 import { ActivityProvider } from "./context/ActivityContext.js";
 import { ReviewProvider } from "./context/ReviewContext.js";
+import { CategoryProvider } from "./context/CategoryContext.js";
 import "./index.css";
 //TO DO
 // import { BrowserRouter } from "react-router-dom";
@@ -17,9 +18,11 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <UserProvider>
         <ActivityProvider>
-            <ReviewProvider>
-                <RouterProvider router={router} />
-            </ReviewProvider>
+            <CategoryProvider>
+                <ReviewProvider>
+                    <RouterProvider router={router} />
+                </ReviewProvider>
+            </CategoryProvider>
         </ActivityProvider>
     </UserProvider>
 );

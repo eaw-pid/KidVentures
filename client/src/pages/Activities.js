@@ -13,6 +13,9 @@ function Activities () {
     const [clicked, setIsClicked] = useState(false)
 
 
+    function onAddActivity(newActivity) {
+        setActivities([...activities, newActivity ])
+    }
 
     useEffect(() => {
         fetch('/activities')
@@ -31,7 +34,7 @@ function Activities () {
     }
 
     const activityList = activities.map((activity) => (
-            <ActivityList key={activity.id} activity={activity} />
+            <ActivityList key={activity.id} activity={activity}  />
         ))
 
     if (!currentUser) {
@@ -43,7 +46,7 @@ function Activities () {
             <h1>Activities</h1> 
             <button onClick={handleClick}>Add An Activity</button>
             {clicked ? 
-            <ActivityForm /> : null}
+            <ActivityForm onAddActivity={onAddActivity}/> : null}
             {activityList}      
         </div>
     )

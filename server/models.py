@@ -92,6 +92,8 @@ class Activity(db.Model, SerializerMixin):
 class Category(db.Model, SerializerMixin):
     __tablename__ = "categories"
 
+    serialize_rules = ('-categories',)
+
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String, nullable=False)
 
@@ -102,6 +104,9 @@ class Category(db.Model, SerializerMixin):
 
 class ActivityCategory(db.Model, SerializerMixin):
     __tablename__ = "activity_categories"
+
+    serialize_rules = ('-category',
+                       '-activity',)
 
     id = db.Column(db.Integer, primary_key=True)
     activity_id = db.Column(db.Integer, db.ForeignKey('activities.id'))

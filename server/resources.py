@@ -96,7 +96,6 @@ class ActivityResource(Resource):
             db.session.add(newActivity)
             db.session.commit()
 
-            #session["user_id"] = newUser.id
             return newActivity.to_dict(), 201
         except IntegrityError:
             return {"error": "zipcode must be 5 characters"}, 422
@@ -142,6 +141,29 @@ class ReviewByActivityId(Resource):
         reviews = [review.to_dict() for review in Review.query.filter_by(activity_id=id).all()]
 
         return reviews, 200
+    
+class CategoryResource(Resource):
+    def get(self):
+
+        categories = [cat.to_dict() for cat in Category.query.all()]
+
+        return categories, 200
+    
+class ActivityCategoryResource(Resource):
+    def post(self):
+
+        data = request.get_json()
+        activity_id = data.get("activity_id")
+        category_id = data.get("category_id")
+
+        try:
+            newActivityCategory = ActivityCategory(activity_id=activity_id, category_id=category_id)
+            db.session.add(newActivityCategory)
+            db.session.commit()
+            return newActivityCategory.to_dict(), 201
+        
+        except ValueError as err:
+            return {"error": str(err)}, 422
     
 class Login(Resource):
     def post(self):
@@ -212,6 +234,8 @@ api.add_resource(ActivityById, '/activities/<int:id>')
 api.add_resource(SignupResource, '/signups')
 api.add_resource(ReviewResource, '/reviews')
 api.add_resource(ReviewByActivityId, '/reviews/<int:id>')
+api.add_resource(CategoryResource, '/categories')
+api.add_resource(ActivityCategoryResource, '/activity-categories')
 api.add_resource(Login, '/login')
 api.add_resource(UserSignup, '/signup')
 api.add_resource(CheckSession, '/check-session')

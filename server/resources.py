@@ -134,6 +134,28 @@ class ReviewResource(Resource):
         reviews = [review.to_dict() for review in Review.query.all()]
 
         return reviews, 200
+    
+    def post(self):
+#TO DO -    THIS IS NOT THROWING AN ERROR IF CATEGORY ID AND ACTIVITY ID DON'T EXIST
+        data = request.get_json()
+        user_id = data.get("user_id")
+        activity_id = data.get("activity_id")
+        comments = data.get("comments")
+
+        try:
+            newReview = Review(
+                                    user_id=user_id,
+                                    activity_id=activity_id, 
+                                    comments=comments,
+                                    )
+            
+            db.session.add(newReview)
+            db.session.commit()
+
+            return newReview.to_dict(), 201
+        
+        except ValueError as err:
+            return {"error": str(err)}, 422
 
 class ReviewByActivityId(Resource):
     def get(self, id):
@@ -151,15 +173,19 @@ class CategoryResource(Resource):
     
 class ActivityCategoryResource(Resource):
     def post(self):
-
+#TO DO -    THIS IS NOT THROWING AN ERROR IF CATEGORY ID AND ACTIVITY ID DON'T EXIST
         data = request.get_json()
         activity_id = data.get("activity_id")
         category_id = data.get("category_id")
 
         try:
-            newActivityCategory = ActivityCategory(activity_id=activity_id, category_id=category_id)
+            newActivityCategory = ActivityCategory(
+                                    activity_id=activity_id, 
+                                    category_id=category_id)
+            
             db.session.add(newActivityCategory)
             db.session.commit()
+
             return newActivityCategory.to_dict(), 201
         
         except ValueError as err:

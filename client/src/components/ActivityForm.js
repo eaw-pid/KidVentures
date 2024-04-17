@@ -3,30 +3,24 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext'
-import { CategoryContext } from '../context/CategoryContext'
+
 import DateTimePicker from 'react-datetime-picker'
 import 'react-datetime-picker/dist/DateTimePicker.css'
+import ActivityFormTwo from './ActivityFormTwo';
 
 function ActivityForm({onAddActivity}) {
+//TO DO: STATE FOR FIRSTCATEGORY, SECONDCATEGORY, ETC THEN TO THE SUBMIT "DONE" - DO 
+
 
     const {currentUser} = useContext(UserContext)
-    const {categories, setCategories} = useContext(CategoryContext)
-    // TODO const [categoryDropDown, setCategoryDropDown] = useState(null)
     const navigate = useNavigate()
     const [activityDate, setActivityDate] = useState(new Date())
     const [newActivity, setNewActivity] = useState({})
+    const [clicked, setIsClicked] = useState(false)
 
 
-    useEffect(() => {
-        fetch('/categories')
-        .then(res => {
-            if (res.status == 200) {
-                res.json().then(data => {
-                    setCategories(data)
-                })
-            }
-        })
-    }, [])
+
+    
 
    
     // function handleCategoryChange(e) {
@@ -58,31 +52,11 @@ function ActivityForm({onAddActivity}) {
        .then(res => res.json())
        .then(data => {
             onAddActivity(data)
-            setNewActivity(data)})       
+            setNewActivity(data)
+            setIsClicked(true)})       
     }
 
-    function handleSubmitTwo(values) {
-        console.log(newActivity, values  )
-        const category = categories.find((cat) => cat.type == values.category)
-
-        const newActivityCategory = {
-            activity_id: newActivity.id,
-            category_id: category.id
-        }
-        fetch('activity-categories', {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newActivityCategory)
-       })
-       .then(res => res.json())
-       .then(data => {
-                console.log(data)
-            // onAddActivity(data)
-            // setNewActivity(data)
-        })
-    }
+    
     
 
     const formik1 = useFormik({
@@ -105,22 +79,7 @@ function ActivityForm({onAddActivity}) {
             handleSubmitOne(values)}
     })
 
-    const formTwoSchema = yup.object().shape({
-        category: yup.string().required("Selection required"),
-    })
-
-    const formik2 = useFormik({
-        initialValues: {
-            category: "",
-        },
-        validationSchema: formTwoSchema,
-        onSubmit: (values) => {
-            handleSubmitTwo(values)
-            // TO DO setCategoryDropDown(values)
-        }
-       
-
-    })
+    
     function displayErrors(error) {
         return error ? <p style={{color: "red"}}>{error}</p> : null}
 
@@ -165,21 +124,9 @@ function ActivityForm({onAddActivity}) {
                     setActivityDate(date)}}/>
             <button type="submit">Next: Select Categories</button>     
         </form>
-
-        <div>
-            <h3>Select Categories</h3>
-            <form onSubmit={formik2.handleSubmit}>
-                <h4>Category</h4>
-                <select name="category" value={formik2.values.category} onChange={formik2.handleChange}>
-                    <option>Select An Option</option>
-                    {categories.map((category) => (
-                        <option key={category.id} value={category.type}>{category.type}</option>
-                    ))}
-                 </select>
-                <button type="submit">Add Another Category</button>
-                {/* <button onClick={() => formik2.handleSubmit("one")}>Done</button> */}
-            </form>
-        </div>
+        {clicked ?
+            <ActivityFormTwo newActivity={setNewActivity}/>     
+        : null }
        </div> 
        
     )

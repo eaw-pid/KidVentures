@@ -118,6 +118,17 @@ class ActivityCategory(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Activity: {self.activity_id}, Category{self.category_id}>'
 
+    @validates('activity_id')
+    def validate_activity_id(self, key, activity_id):
+        if not any(activity.id == activity_id for activity in Activity.query.all()):
+            raise ValueError("activity does not exist")
+        return activity_id
+    
+    @validates('category_id')
+    def validate_category_id(self, key, category_id):
+        if not any(category.id == category_id for category in Category.query.all()):
+            raise ValueError("category does not exist")
+        return category_id
 
 class Signup(db.Model, SerializerMixin):
     __tablename__ = "signups"
@@ -151,6 +162,18 @@ class Review(db.Model, SerializerMixin):
     user = db.relationship("User", back_populates="reviews")
     activity = db.relationship("Activity", back_populates="reviews")
 
+    @validates('user_id')
+    def validate_user_id(self, key, user_id):
+        if not any(user.id == user_id for user in User.query.all()):
+            raise ValueError("user does not exist")
+        return user_id
+    
+    @validates('activity_id')
+    def validate_activity_id(self, key, activity_id):
+        if not any(activity.id == activity_id for activity in Activity.query.all()):
+            raise ValueError("activity does not exist")
+        return activity_id
+
     def __repr__(self):
-        return f'<User:{self.user_id}, Activity: {self.activity_id}, Review: {self.notes}>'
+        return f'<User:{self.user_id}, Activity: {self.activity_id}, Review: {self.comments}>'
     

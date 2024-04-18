@@ -3,6 +3,7 @@ import Login from "./pages/Login"
 import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Activities from "./pages/Activities";
+import ActivityDetail from "./pages/ActivityDetail";
 
 const routes = [
     {
@@ -27,11 +28,13 @@ const routes = [
                 path: "/activities",
                 element: <Activities />,
             },
-            // {
-            //     path: "/companies",
-            //     element: <Companies />,
-            // },
-        
+            {
+                path: "/activities/:id",
+                element: <ActivityDetail />
+            }
+                
+            
+     
             
         ]
     }

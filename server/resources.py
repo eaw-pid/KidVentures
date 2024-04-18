@@ -136,7 +136,6 @@ class ReviewResource(Resource):
         return reviews, 200
     
     def post(self):
-#TO DO -    THIS IS NOT THROWING AN ERROR IF CATEGORY ID AND ACTIVITY ID DON'T EXIST
         data = request.get_json()
         user_id = data.get("user_id")
         activity_id = data.get("activity_id")
@@ -173,7 +172,6 @@ class CategoryResource(Resource):
     
 class ActivityCategoryResource(Resource):
     def post(self):
-#TO DO -    THIS IS NOT THROWING AN ERROR IF CATEGORY ID AND ACTIVITY ID DON'T EXIST
         data = request.get_json()
         activity_id = data.get("activity_id")
         category_id = data.get("category_id")
@@ -190,6 +188,17 @@ class ActivityCategoryResource(Resource):
         
         except ValueError as err:
             return {"error": str(err)}, 422
+        
+class ActivityCategoryById(Resource):
+    def delete(self, id):
+        ac = ActivityCategory.query.filter_by(id=id).first()
+        if ac:
+            db.session.delete(ac)
+            db.session.commit()
+
+            return {"message": "Delete Successful"}
+        else:
+            return {"error": "cannot find"}
     
 class Login(Resource):
     def post(self):
@@ -262,6 +271,7 @@ api.add_resource(ReviewResource, '/reviews')
 api.add_resource(ReviewByActivityId, '/reviews/<int:id>')
 api.add_resource(CategoryResource, '/categories')
 api.add_resource(ActivityCategoryResource, '/activity-categories')
+api.add_resource(ActivityCategoryById, '/activity-categories/<int:id>')
 api.add_resource(Login, '/login')
 api.add_resource(UserSignup, '/signup')
 api.add_resource(CheckSession, '/check-session')

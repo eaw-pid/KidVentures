@@ -74,9 +74,9 @@ class Activity(db.Model, SerializerMixin):
     free = db.Column(db.Boolean, default=False, server_default="0") 
     registration_link = db.Column(db.String)
 
-    categories = db.relationship("ActivityCategory", back_populates="activity")
-    signups = db.relationship("Signup", back_populates="activity")
-    reviews = db.relationship("Review", back_populates="activity")
+    categories = db.relationship("ActivityCategory", cascade="all,delete", back_populates="activity")
+    signups = db.relationship("Signup", cascade="all,delete", back_populates="activity")
+    reviews = db.relationship("Review", cascade="all,delete", back_populates="activity")
 
     @validates('zip_code')
     def validate_zip_code(self, key, zip_code):
@@ -97,7 +97,7 @@ class Category(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String, nullable=False)
 
-    categories = db.relationship("ActivityCategory", cascade="all,delete", back_populates="category")
+    categories = db.relationship("ActivityCategory", back_populates="category")
 
     def __repr__(self):
         return f'<{self.type}>'

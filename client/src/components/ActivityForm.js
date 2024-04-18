@@ -1,7 +1,6 @@
 import React, {useContext, useState, useEffect} from 'react'
 import { useFormik } from "formik";
 import * as yup from "yup";
-import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../context/UserContext'
 
 import DateTimePicker from 'react-datetime-picker'
@@ -13,7 +12,6 @@ function ActivityForm({onAddActivity}) {
 
 
     const {currentUser} = useContext(UserContext)
-    const navigate = useNavigate()
     const [activityDate, setActivityDate] = useState(new Date())
     const [newActivity, setNewActivity] = useState({})
     const [clicked, setIsClicked] = useState(false)
@@ -23,11 +21,7 @@ function ActivityForm({onAddActivity}) {
     
 
    
-    // function handleCategoryChange(e) {
-    //     const selectedCategory = categories.find((category) => category.type == e.target.value)
-    //     console.log(selectedCategory)
-    //     setCategoryDropDown(selectedCategory)  
-    //   }
+
 
     const formOneSchema = yup.object().shape({
         title: yup.string().required("Title required"),
@@ -41,13 +35,13 @@ function ActivityForm({onAddActivity}) {
 
     function handleSubmitOne(values) {
         const IsoDate = activityDate.toISOString().slice(0, 19);
-        const newActivity = {...values, start_time: IsoDate}
+        const activity = {...values, start_time: IsoDate}
         fetch('/activities', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(newActivity)
+            body: JSON.stringify(activity)
        })
        .then(res => res.json())
        .then(data => {
@@ -57,8 +51,6 @@ function ActivityForm({onAddActivity}) {
     }
 
     
-    
-
     const formik1 = useFormik({
         initialValues: {
             title: "",
@@ -125,7 +117,7 @@ function ActivityForm({onAddActivity}) {
             <button type="submit">Next: Select Categories</button>     
         </form>
         {clicked ?
-            <ActivityFormTwo newActivity={setNewActivity}/>     
+            <ActivityFormTwo newActivity={newActivity}/>     
         : null }
        </div> 
        

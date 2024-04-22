@@ -1,9 +1,10 @@
 import React, {useContext, useState, useEffect} from "react";
 import ActivityList from "../components/ActivityList";
 import ActivityForm from "../components/ActivityForm";
+import ActivityCalendar from "../components/ActivityCalendar";
 import { ActivityContext } from "../context/ActivityContext";
 import { UserContext } from "../context/UserContext";
-
+import { DateValueContext } from "../context/DateValueContext";
 
 
 function Activities () {
@@ -11,6 +12,7 @@ function Activities () {
     const {activities, setActivities} = useContext(ActivityContext)
     const {currentUser} = useContext(UserContext)
     const [clicked, setIsClicked] = useState(false)
+    const {dateValue} = useContext(DateValueContext)
 
 
     function onAddActivity(newActivity) {
@@ -29,11 +31,16 @@ function Activities () {
 
     }, [])
 
+
+  
+    const filteredActivities = dateValue.length > 0 ? activities.filter(act => act.start_time.slice(0, 10) === dateValue) : activities;
+
+    
     function handleClick() {
         setIsClicked((clicked) => !clicked)
     }
 
-    const activityList = activities.map((activity) => (
+    const activityList = filteredActivities.map((activity) => (
             <ActivityList key={activity.id} activity={activity}  />
         ))
 
@@ -44,6 +51,7 @@ function Activities () {
     return(
         <div>
             <h1>Activities</h1> 
+            <ActivityCalendar />
             <button onClick={handleClick}>Add An Activity</button>
             {clicked ? 
             <ActivityForm onAddActivity={onAddActivity}/> : null}

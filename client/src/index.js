@@ -5,6 +5,7 @@ import { UserProvider } from "./context/UserContext.js";
 import { ActivityProvider } from "./context/ActivityContext.js";
 import { ReviewProvider } from "./context/ReviewContext.js";
 import { CategoryProvider } from "./context/CategoryContext.js";
+import { DateValueProvider } from "./context/DateValueContext.js";
 import "./index.css";
 //TO DO
 // import { BrowserRouter } from "react-router-dom";
@@ -20,7 +21,9 @@ root.render(
         <ActivityProvider>
             <CategoryProvider>
                 <ReviewProvider>
-                    <RouterProvider router={router} />
+                    <DateValueProvider>
+                        <RouterProvider router={router} />
+                    </DateValueProvider>
                 </ReviewProvider>
             </CategoryProvider>
         </ActivityProvider>

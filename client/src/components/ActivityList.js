@@ -6,7 +6,6 @@ import { useNavigate, Link  } from "react-router-dom";
 function ActivityList({activity}) {
 
     const numOfReviews = ((activity.reviews).length)
-    const [clicked, setIsClicked] = useState(false)
     const navigate = useNavigate()
 
     const {reviews} = activity
@@ -16,7 +15,6 @@ function ActivityList({activity}) {
     ))
 
     function handleClick() {
-        console.log(activity)
         navigate(`/activities/${activity.id}`)
     }
     return (

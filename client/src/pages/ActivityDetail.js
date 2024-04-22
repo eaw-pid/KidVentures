@@ -23,12 +23,20 @@ function ActivityDetail() {
         )
     }, [])
 
+    
 
     return (
 
-        <>
+        <div>
         <h1>{activity.title}</h1>
-        </>
+        <h3>Description: {activity.description}</h3>
+        <p>Address:</p>
+        <p>{activity.street_one}</p>
+        <p>{activity.city}, {activity.state} {activity.zip_code}</p>
+        <p>Time: {activity.date_converter}</p>
+        {activity.price ? 
+        <p>Price: $ {activity.price}</p>: null}
+        </div>
     )
 
 }

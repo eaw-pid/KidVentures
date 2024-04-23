@@ -2,13 +2,13 @@ import React, { useContext, useState } from 'react'
 import { CategoryContext } from '../context/CategoryContext'
 
 
-function ActivityMenu({dropdown, setDropdown}) {
+function ActivityMenu({dropdown, setDropdown, freeClick, setFreeClick}) {
 
     const {categories} = useContext(CategoryContext)
 
-    console.log(dropdown)
+    
     function handleClick() {
-        setDropdown('Free')
+        setFreeClick((freeClick) => !freeClick)
     }
 
     return (

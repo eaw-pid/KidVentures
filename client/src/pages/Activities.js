@@ -20,9 +20,10 @@ function Activities () {
     const {categories, setCategories} = useContext(CategoryContext)
     const {actCategories} = useContext(ActCategoryContext)
     const [dropdown, setDropdown] = useState("all")
+    const [freeClick, setFreeClick] = useState(false)
     const navigate = useNavigate()
     let selectedCategory
-
+    let filt_act
 
 
     useEffect(() => {
@@ -48,35 +49,52 @@ function Activities () {
         })
     }, [])
 
+    // filt_act = activities
 
     function onAddActivity(newActivity) {
         setActivities([...activities, newActivity ])
     }
 
-    if (dropdown !== 'All') {
+    if (dropdown !== 'all') {
         selectedCategory = categories.find((cat) => cat.type === dropdown);
       
-    //     const filt_act = activities.filter((ac) => {
-    //       return ac.categories.filter(category => category.category_id === selectedCategory.id).length > 0;
-    //     });
-      
-    //     console.log(filt_act);
+        filt_act = activities.filter((ac) => {
+          return ac.categories.filter(category => category.category_id === selectedCategory.id).length > 0;
+        }).filter((ac) => {
+            const startDate = new Date(ac.start_time);
+            console.log(startDate)
+            const currentDate = new Date()
+            return startDate >= currentDate
+        } );
+      } else {
+        filt_act = activities.filter((ac) => {
+            const startDate = new Date(ac.start_time);
+            console.log(startDate)
+            const currentDate = new Date()
+            return startDate >= currentDate
+        })
       }
+
+            
     
     //For each activity in activities, I need to iterate through activity.categories and see if 
     //category_id === selectedCategory.id
     
    
- 
+    console.log(dropdown)
 
+    // const filteredActivities = activities.filter((ac) => {
+    //     return ac.categories.filter(category => category.category_id === selectedCategory.id).length > 0;
+    //   });
+      
   //TO DO only LIST ACTIVITIES AFTER CURRENT DAY
-    const filteredActivities = dateValue.length > 0 
-            ? activities
-            .filter(act => act.start_time.slice(0, 10) === dateValue) 
-            .filter(act => act.free === true)
-            : activities;
+    // const filteredActivities = dateValue.length > 0 
+    //         ? activities
+    //         .filter(act => act.start_time.slice(0, 10) === dateValue) 
+    //         .filter(act => act.free === true)
+    //         : activities;
    
-
+    // const filteredActivities = activities.filter((act) => act.free === true)
 
     function handleClick() {
         setIsClicked((clicked) => !clicked)
@@ -86,7 +104,7 @@ function Activities () {
         navigate('/calendar')
     }
 
-    const activityList = filteredActivities.map((activity) => (
+    const activityList = filt_act.map((activity) => (
             <ActivityList key={activity.id} activity={activity}  />
         ))
 
@@ -96,9 +114,9 @@ function Activities () {
  
     return(
         <div>
-            <h1>Activities</h1> 
+            <h1>Upcoming Activities</h1> 
             <button onClick={handleCalendarClick}>View Calendar</button>
-            <ActivityMenu dropdown={dropdown} setDropdown={setDropdown}/>
+            <ActivityMenu dropdown={dropdown} setDropdown={setDropdown} freeClick={freeClick} setFreeClick={setFreeClick}/>
             {/* <ActivityCalendar /> */}
             <button onClick={handleClick}>Add An Activity</button>
             {clicked ? 

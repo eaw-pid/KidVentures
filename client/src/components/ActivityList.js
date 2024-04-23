@@ -22,6 +22,7 @@ function ActivityList({activity}) {
             <h3 onClick={handleClick}>{activity.title}</h3>
             <p>Description: {activity.description}</p>
             <p>Location: {activity.location}</p>
+            <p>Date/Time: {activity.date_converter}</p>
             <h4>Reviews: {numOfReviews}</h4><button>Add Review</button> 
             {reviewList}
             {activity.free ? 

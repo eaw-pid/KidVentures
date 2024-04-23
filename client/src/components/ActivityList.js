@@ -24,6 +24,8 @@ function ActivityList({activity}) {
             <p>Location: {activity.location}</p>
             <h4>Reviews: {numOfReviews}</h4><button>Add Review</button> 
             {reviewList}
+            {activity.free ? 
+            <p><strong>FREE</strong></p>: null}
         </div>
     )
 }

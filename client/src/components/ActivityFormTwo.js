@@ -10,23 +10,11 @@ import { useNavigate } from 'react-router-dom';
 function ActivityFormTwo({newActivity}) {
 
     const {currentUser} = useContext(UserContext)
-    const {categories, setCategories} = useContext(CategoryContext)
+    const {categories} = useContext(CategoryContext)
     const [firstCategory, setFirstCategory] = useState("")
     const [secondCategory, setSecondCategory] = useState("")
     const [addSecond, setAddSecond] = useState(false)
     const navigate = useNavigate()
-
-
-    useEffect(() => {
-        fetch('/categories')
-        .then(res => {
-            if (res.status == 200) {
-                res.json().then(data => {
-                    setCategories(data)
-                })
-            }
-        })
-    }, [])
 
 
     function handleSubmitTwo() {

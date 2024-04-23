@@ -4,6 +4,7 @@ import Signup from "./pages/Signup";
 import Home from "./pages/Home";
 import Activities from "./pages/Activities";
 import ActivityDetail from "./pages/ActivityDetail";
+import BigCalendar from "./components/BigCalendar";
 
 const routes = [
     {
@@ -31,10 +32,12 @@ const routes = [
             {
                 path: "/activities/:id",
                 element: <ActivityDetail />
+            },
+            {
+                path: "/calendar",
+                element: <BigCalendar />
             }
                 
-            
-     
             
         ]
     }

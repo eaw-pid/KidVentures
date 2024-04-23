@@ -1,11 +1,13 @@
 import React, {useContext, useEffect, useState} from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { ActivityContext } from '../context/ActivityContext'
+
 
 function ActivityDetail() {
 
     const {activities} = useContext(ActivityContext)
     const {id} = useParams()
+    const navigate = useNavigate()
     const [activity, setActivity] = useState({})
    
     
@@ -23,11 +25,14 @@ function ActivityDetail() {
         )
     }, [])
 
-    
+    function handleClick() {
+        navigate('/activities')
+    }
 
     return (
 
         <div>
+        <button onClick={handleClick}>Back to All Events</button>
         <h1>{activity.title}</h1>
         <h3>Description: {activity.description}</h3>
         <p>Address:</p>
@@ -36,6 +41,7 @@ function ActivityDetail() {
         <p>Time: {activity.date_converter}</p>
         {activity.price ? 
         <p>Price: $ {activity.price}</p>: null}
+        
         </div>
     )
 

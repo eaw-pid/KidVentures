@@ -58,6 +58,8 @@ class Activity(db.Model, SerializerMixin):
 
     serialize_rules = ('-categories.activity',
                        '-categories.category',
+                       'date_converter',
+                       'full_address',
                        )
 
     id = db.Column(db.Integer, primary_key=True)
@@ -78,6 +80,15 @@ class Activity(db.Model, SerializerMixin):
     signups = db.relationship("Signup", cascade="all,delete", back_populates="activity")
     reviews = db.relationship("Review", cascade="all,delete", back_populates="activity")
 
+    def date_converter(self):
+        date = self.start_time
+
+        return date.strftime("%A,  %B %-d %I:%M %p")
+
+    def full_address(self):
+
+        return f"{self.street_one} {self.city}, {self.state} {self.zip_code}"
+    
     @validates('zip_code')
     def validate_zip_code(self, key, zip_code):
         if len(zip_code) != 5:
@@ -103,6 +114,7 @@ class Category(db.Model, SerializerMixin):
         return f'<{self.type}>'
 
 class ActivityCategory(db.Model, SerializerMixin):
+    ##TO DO NEED A ASSC PROXY FOR CATEGORY_ID
     __tablename__ = "activity_categories"
 
     serialize_rules = ('-category',
@@ -114,7 +126,8 @@ class ActivityCategory(db.Model, SerializerMixin):
 
     category = db.relationship("Category", back_populates="categories")
     activity = db.relationship("Activity", back_populates="categories")
-
+    
+    
     def __repr__(self):
         return f'<Activity: {self.activity_id}, Category{self.category_id}>'
 

@@ -171,6 +171,10 @@ class CategoryResource(Resource):
         return categories, 200
     
 class ActivityCategoryResource(Resource):
+
+    def get(self):
+        return [act_cat.to_dict() for act_cat in ActivityCategory.query.all()], 200
+    
     def post(self):
         data = request.get_json()
         activity_id = data.get("activity_id")

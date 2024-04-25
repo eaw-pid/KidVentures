@@ -1,11 +1,11 @@
 import { createContext, useEffect, useState} from 'react';
 
-
 const UserContext = createContext({})
 
 function UserProvider({children}) {
     const [currentUser, setCurrentUser] = useState(null)
     const [loggedIn, setLoggedIn] = useState(false)
+    
    
     useEffect(() => {
         fetch('/check-session')
@@ -29,6 +29,7 @@ function UserProvider({children}) {
             if(res.status == 200) {
                 setCurrentUser(null)
                 setLoggedIn(false)
+                
             } 
         })
     }

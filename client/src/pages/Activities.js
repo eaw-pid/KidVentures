@@ -8,7 +8,6 @@ import { ActivityContext } from "../context/ActivityContext";
 import { UserContext } from "../context/UserContext";
 import { DateValueContext } from "../context/DateValueContext";
 import { CategoryContext } from "../context/CategoryContext";
-import { ActCategoryContext } from "../context/ActivityCategoryContext";
 import { useNavigate } from "react-router-dom";
 
 function Activities () {
@@ -18,7 +17,6 @@ function Activities () {
     const [clicked, setIsClicked] = useState(false)
     const {dateValue} = useContext(DateValueContext)    
     const {categories, setCategories} = useContext(CategoryContext)
-    const {actCategories} = useContext(ActCategoryContext)
     const [dropdown, setDropdown] = useState("all")
     const [freeClick, setFreeClick] = useState(false)
     const navigate = useNavigate()
@@ -49,7 +47,7 @@ function Activities () {
         })
     }, [])
 
-    // filt_act = activities
+    
 
     function onAddActivity(newActivity) {
         setActivities([...activities, newActivity ])
@@ -75,17 +73,11 @@ function Activities () {
         })
       }
 
-            
-    
-    //For each activity in activities, I need to iterate through activity.categories and see if 
-    //category_id === selectedCategory.id
     
    
     console.log(dropdown)
 
-    // const filteredActivities = activities.filter((ac) => {
-    //     return ac.categories.filter(category => category.category_id === selectedCategory.id).length > 0;
-    //   });
+    
       
   //TO DO only LIST ACTIVITIES AFTER CURRENT DAY
     // const filteredActivities = dateValue.length > 0 
@@ -94,7 +86,7 @@ function Activities () {
     //         .filter(act => act.free === true)
     //         : activities;
    
-    // const filteredActivities = activities.filter((act) => act.free === true)
+
 
     function handleClick() {
         setIsClicked((clicked) => !clicked)

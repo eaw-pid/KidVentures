@@ -6,7 +6,7 @@ import { ActivityProvider } from "./context/ActivityContext.js";
 import { ReviewProvider } from "./context/ReviewContext.js";
 import { CategoryProvider } from "./context/CategoryContext.js";
 import { DateValueProvider } from "./context/DateValueContext.js";
-import { ActCategoryProvider } from "./context/ActivityCategoryContext.js";
+import { SingleActivityProvider } from "./context/SingleActivityContext.js";
 import "./index.css";
 //TO DO
 // import { BrowserRouter } from "react-router-dom";
@@ -21,13 +21,13 @@ root.render(
     <UserProvider>
         <ActivityProvider>
             <CategoryProvider>
-                <ActCategoryProvider>
+                <SingleActivityProvider>
                     <ReviewProvider>
                         <DateValueProvider>
                             <RouterProvider router={router} />
                         </DateValueProvider>
                     </ReviewProvider>
-                </ActCategoryProvider>
+                </SingleActivityProvider>
             </CategoryProvider>
         </ActivityProvider>
     </UserProvider>

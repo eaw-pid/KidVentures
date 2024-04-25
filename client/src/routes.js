@@ -5,12 +5,17 @@ import Home from "./pages/Home";
 import Activities from "./pages/Activities";
 import ActivityDetail from "./pages/ActivityDetail";
 import BigCalendar from "./components/BigCalendar";
+import ErrorPage from "./pages/ErrorPage";
+import { UserContext } from "./context/UserContext";
+
+
+
 
 const routes = [
     {
         path: "/",
         element: <App />,
-        // errorElement: <ErrorPage />,
+        errorElement: <ErrorPage />,
         children: [
         
             // {
@@ -28,6 +33,9 @@ const routes = [
             {
                 path: "/activities",
                 element: <Activities />,
+                children: [
+                    
+                ]
             },
             {
                 path: "/activities/:id",

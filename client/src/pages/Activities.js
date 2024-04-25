@@ -60,22 +60,17 @@ function Activities () {
           return ac.categories.filter(category => category.category_id === selectedCategory.id).length > 0;
         }).filter((ac) => {
             const startDate = new Date(ac.start_time);
-            console.log(startDate)
             const currentDate = new Date()
             return startDate >= currentDate
         } );
       } else {
         filt_act = activities.filter((ac) => {
             const startDate = new Date(ac.start_time);
-            console.log(startDate)
+    
             const currentDate = new Date()
             return startDate >= currentDate
         })
       }
-
-    
-   
-    console.log(dropdown)
 
     
       

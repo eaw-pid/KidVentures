@@ -3,6 +3,7 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.hybrid import hybrid_property
 from datetime import datetime
+from geopy.geocoders import Nominatim
 
 from config import db, bcrypt
 
@@ -60,6 +61,7 @@ class Activity(db.Model, SerializerMixin):
                        '-categories.category',
                        'date_converter',
                        'full_address',
+                       'geolocator',
                        )
 
     id = db.Column(db.Integer, primary_key=True)
@@ -88,6 +90,14 @@ class Activity(db.Model, SerializerMixin):
     def full_address(self):
 
         return f"{self.street_one} {self.city}, {self.state} {self.zip_code}"
+    
+    def geolocator(self):
+        geolocator = Nominatim(user_agent="KidVentures")
+
+        location = geolocator.geocode(self.full_address(), timeout=200)
+
+        return location
+
     
     @validates('zip_code')
     def validate_zip_code(self, key, zip_code):

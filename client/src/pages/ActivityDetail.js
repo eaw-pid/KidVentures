@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { ActivityContext } from '../context/ActivityContext'
 import { UserContext } from '../context/UserContext'
 import { SingleActivityContext } from "../context/SingleActivityContext"
+import MapComponent from "../components/MapComponent";
 
 
 function ActivityDetail() {
@@ -26,7 +27,7 @@ function ActivityDetail() {
         return null;
     }
 
-    
+
     return (
 
         <div>
@@ -39,7 +40,7 @@ function ActivityDetail() {
         <p>Time: {singleActivity.date_converter}</p>
         {singleActivity.price ? 
         <p>Price: $ {singleActivity.price}</p>: null}
-        
+        <MapComponent />
         </div>
     )
 

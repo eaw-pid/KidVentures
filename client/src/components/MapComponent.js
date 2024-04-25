@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { SingleActivityContext } from "../context/SingleActivityContext"
-
-
+import apikey from "../config";
 import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+
+const key=apikey
 
 const containerStyle = {
     width: '400px',
@@ -14,16 +15,22 @@ const containerStyle = {
     lng: -75.920647
   };
 
+
   function MapComponent() {
 
+
+
     const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: "AIzaSyCUzXPz-7Uf6va1eTuwH-9rjQTQWq3bHwQ"
+        googleMapsApiKey: apikey
+        // process.env.REACT_APP_MAPS_API_KEY
       })
 
+    
     const {singleActivity} = useContext(SingleActivityContext)
- 
+    
+    console.log(singleActivity)
     function MarkerComponent() {
-        return (
+        return  (
           <Marker
             position={{
               lat: singleActivity.geolocator[1][0],

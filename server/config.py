@@ -10,6 +10,7 @@ from sqlalchemy import MetaData
 from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 
+
 # Local imports
 
 # Instantiate app, set attributes

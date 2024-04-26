@@ -107,7 +107,7 @@ class ActivityById(Resource):
         activity = Activity.query.filter_by(id=id).first()
 
         if activity:
-            return activity.to_dict(), 200
+            return activity.to_dict(rules=("geolocator",)), 200
         else:
             return {"Error": "Cannot find activity"}, 422
     

@@ -17,7 +17,7 @@ function ActivityDetail() {
    
     
     
-
+    console.log(singleActivity)
 
     function handleClick() {
         navigate('/activities')
@@ -40,6 +40,7 @@ function ActivityDetail() {
         <p>Time: {singleActivity.date_converter}</p>
         {singleActivity.price ? 
         <p>Price: $ {singleActivity.price}</p>: null}
+        <p>More Details: {singleActivity.registration_link}</p>
         <MapComponent />
         </div>
     )

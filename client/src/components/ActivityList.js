@@ -25,14 +25,17 @@ function ActivityList({activity}) {
         fetch(`/activities/${activity.id}`)
         .then(res => {
             if(res.status == 200) {
-                res.json().then(data => {
+                res.json()
+                .then(data => {
                     // console.log(data)
-                    setSingleActivity(data)})
+                    setSingleActivity(data)
+                    })
+                    navigate(`/activities/${activity.id}`)
             } else {
                 res.json().then(data => console.log(data.error))
             }}
         )
-        navigate(`/activities/${activity.id}`)
+        
     }
 
     return (

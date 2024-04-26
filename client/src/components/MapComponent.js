@@ -1,34 +1,34 @@
 import React, { useContext } from "react";
 import { SingleActivityContext } from "../context/SingleActivityContext"
 import apikey from "../config";
-import { GoogleMap, useLoadScript, Marker } from '@react-google-maps/api';
+import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 const key=apikey
 
 const containerStyle = {
-    width: '400px',
-    height: '400px'
-  };
+  width: '400px',
+  height: '400px'
+};
+
+const center = {
+  lat: 42.098843,
+  lng: -75.920647
+};
+
+const lib = ['places']
+
+function MapComponent() {
   
-  const center = {
-    lat: 42.098843,
-    lng: -75.920647
-  };
-
-
-  function MapComponent() {
-
-
-
-    const { isLoaded, loadError } = useLoadScript({
-        googleMapsApiKey: apikey
-        // process.env.REACT_APP_MAPS_API_KEY
+  const {singleActivity} = useContext(SingleActivityContext)
+  
+  const { isLoaded, loadError } = useJsApiLoader({
+    libraries: lib,
+        googleMapsApiKey: key
       })
+     
 
     
-    const {singleActivity} = useContext(SingleActivityContext)
     
-    console.log(singleActivity)
     function MarkerComponent() {
         return  (
           <Marker
@@ -40,18 +40,23 @@ const containerStyle = {
         );
       }
 
+      if (!isLoaded || !singleActivity) {
+        return <h3>Loading...</h3>;
+      }
+    return  (
+        <div>
   
-      return isLoaded ? (
-        <GoogleMap
-          mapContainerStyle={containerStyle}
-          center={center}
-          zoom={10}
-       
-        >
-            <MarkerComponent/>
-          <></>
-        </GoogleMap>
-    ) : <></>
+          <GoogleMap
+            mapContainerStyle={containerStyle}
+            center={center}
+            zoom={10}
+         
+          >
+              <MarkerComponent/>
+            <></>
+          </GoogleMap>
+        </div>
+      )
     }
 
 export default MapComponent

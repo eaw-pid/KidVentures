@@ -2,7 +2,9 @@ import React, { useContext } from 'react'
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { UserContext } from '../context/UserContext';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import { Form, Button } from 'react-bootstrap';
+
 
 function Login() {
 
@@ -45,17 +47,23 @@ function Login() {
         return error ? <p style={{color: "red"}}>{error}</p> : null}
     
         return (
-        <div>
-            <form onSubmit={formik.handleSubmit}>
-                <h3>Login</h3>
-                <label>Username</label>
-                <input type="username" name="username" value={formik.values.username} onChange={formik.handleChange}/>
-                {displayErrors(formik.errors.username)}
-                <label>Password</label>
-                <input type="password" name="password" value={formik.values.password} onChange={formik.handleChange}/>
-                {displayErrors(formik.errors.password)}
-                <button type="submit">Submit</button>
-            </form>
+        <div className="Auth-form-container"> 
+            <Form className="Auth-form"  onSubmit={formik.handleSubmit}>
+                <div className="Auth-form-content">
+                    <Form.Label className="Auth-form-title">Login</Form.Label>
+                        <Form.Group >
+                            <Form.Label>Username</Form.Label>
+                            <Form.Control type="username" name="username" value={formik.values.username} onChange={formik.handleChange}/>
+                            {displayErrors(formik.errors.username)}
+                    </Form.Group>
+                    <Form.Group>
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control type="password" name="password" value={formik.values.password} onChange={formik.handleChange}/>
+                            {displayErrors(formik.errors.password)}
+                    </Form.Group>  
+                    <Button type="submit">Submit</Button>
+                </div>
+            </Form>
         </div>
 
     )

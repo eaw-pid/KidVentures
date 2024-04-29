@@ -3,6 +3,7 @@ import { ReviewContext } from "../context/ReviewContext";
 import { UserContext } from "../context/UserContext";
 import { useNavigate, Link  } from "react-router-dom";
 import { SingleActivityContext } from "../context/SingleActivityContext"
+import {Container, Col, Row} from 'react-bootstrap';
  
 
 function ActivityList({activity}) {
@@ -40,14 +41,23 @@ function ActivityList({activity}) {
 
     return (
         <div>
-            <h3 onClick={handleClick}>{activity.title}</h3>
-            <p>Description: {activity.description}</p>
-            <p>Location: {activity.location}</p>
-            <p>Date/Time: {activity.date_converter}</p>
-            <h4>Reviews: {numOfReviews}</h4><button onClick={handleReviewClick}>Add Review</button> 
-            {reviewList}
-            {activity.free ? 
-            <p><strong>FREE</strong></p>: null}
+           <Container>
+            <Row>
+                <Col>
+                    <h3 onClick={handleClick}>{activity.title}</h3>
+                    <p>Description: {activity.description}</p>
+                    <h4>Reviews: {numOfReviews}</h4><button onClick={handleReviewClick}>Add Review</button> 
+                    {reviewList}
+                </Col>
+                <Col >
+                    <p>Location: {activity.location}</p>
+                    <p>Date/Time: {activity.date_converter}</p>
+                    {activity.free ? 
+                    <p><strong>FREE</strong></p>: null}
+                </Col>
+            </Row>
+
+           </Container>
         </div>
     )
 }

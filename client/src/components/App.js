@@ -13,13 +13,13 @@ function App() {
 
   return (
       <div>
-        <h1>KidVentures Home Page</h1>
+        
       
           <NavBar />
         <Outlet />
-        {!currentUser ? 
-        <Home />
-      : null }
+        
+        {/* <Home /> */}
+     
        
   
       </div>

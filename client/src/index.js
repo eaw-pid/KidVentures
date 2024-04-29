@@ -8,6 +8,7 @@ import { CategoryProvider } from "./context/CategoryContext.js";
 import { DateValueProvider } from "./context/DateValueContext.js";
 import { SingleActivityProvider } from "./context/SingleActivityContext.js";
 import "./index.css";
+import 'bootstrap/dist/css/bootstrap.min.css'
 //TO DO
 // import { BrowserRouter } from "react-router-dom";
 // import { createRoot } from "react-dom/client";
@@ -18,19 +19,20 @@ const router = createBrowserRouter(routes)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <UserProvider>
-        <ActivityProvider>
-            <CategoryProvider>
-                <SingleActivityProvider>
-                    <ReviewProvider>
-                        <DateValueProvider>
-                            <RouterProvider router={router} />
-                        </DateValueProvider>
-                    </ReviewProvider>
-                </SingleActivityProvider>
-            </CategoryProvider>
-        </ActivityProvider>
-    </UserProvider>
+  
+        <UserProvider>
+            <ActivityProvider>
+                <CategoryProvider>
+                    <SingleActivityProvider>
+                        <ReviewProvider>
+                            <DateValueProvider>
+                                <RouterProvider router={router} />
+                            </DateValueProvider>
+                        </ReviewProvider>
+                    </SingleActivityProvider>
+                </CategoryProvider>
+            </ActivityProvider>
+        </UserProvider>
 );
 
 

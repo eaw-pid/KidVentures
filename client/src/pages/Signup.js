@@ -34,7 +34,7 @@ function Signup() {
                 body: JSON.stringify(values)
             })
             .then(res => {
-                if(res.status == 201) {
+                if(res.status === 201) {
                     res.json().then(userData => {
                         login(userData)
                         navigate('/activities')})
@@ -53,7 +53,7 @@ function Signup() {
         <div className="Auth-form-container">
             <Form className="Auth-form" onSubmit={formik.handleSubmit}>
                 <div className="Auth-form-content">
-                    <Form.Label className="Auth-form-title">Sign In</Form.Label>
+                    <Form.Label className="Auth-form-title">Sign Up</Form.Label>
                         <Form.Group>
                             <Form.Label>Username</Form.Label>
                             <Form.Control type="username" name="username" value={formik.values.username} onChange={formik.handleChange}/>

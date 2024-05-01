@@ -9,6 +9,7 @@ import { UserContext } from "../context/UserContext";
 import { DateValueContext } from "../context/DateValueContext";
 import { CategoryContext } from "../context/CategoryContext";
 import { useNavigate } from "react-router-dom";
+import {Container, Navbar, Button, Nav} from 'react-bootstrap';
 
 function Activities () {
 
@@ -62,7 +63,11 @@ function Activities () {
             const startDate = new Date(ac.start_time);
             const currentDate = new Date()
             return startDate >= currentDate
-        } );
+        })
+        if (freeClick) {
+            filt_act = filt_act.filter((ac) => ac.free === true)
+        }
+        // .filter((ac) => => ac.free === True )
       } else {
         filt_act = activities.filter((ac) => {
             const startDate = new Date(ac.start_time);
@@ -70,6 +75,9 @@ function Activities () {
             const currentDate = new Date()
             return startDate >= currentDate
         })
+        if (freeClick) {
+            filt_act = filt_act.filter((ac) => ac.free === true)
+        }
       }
 
     
@@ -83,9 +91,7 @@ function Activities () {
    
 
 
-    function handleClick() {
-        setIsClicked((clicked) => !clicked)
-    }
+    
 
     function handleCalendarClick() {
         navigate('/calendar')
@@ -100,17 +106,26 @@ function Activities () {
     }
  
     return(
-        <div>
-            <h1>Upcoming Activities</h1> 
-            <button onClick={handleCalendarClick}>View Calendar</button>
-            <ActivityMenu dropdown={dropdown} setDropdown={setDropdown} freeClick={freeClick} setFreeClick={setFreeClick}/>
-            {/* <ActivityCalendar /> */}
-            <button onClick={handleClick}>Add An Activity</button>
+        <div className="activities-container">
+            <ActivityMenu dropdown={dropdown} 
+                setDropdown={setDropdown} 
+                freeClick={freeClick} 
+                setFreeClick={setFreeClick}
+                handleCalendarClick={handleCalendarClick}
+                clicked={clicked}
+                setIsClicked={setIsClicked}/>
             {clicked ? 
-            <ActivityForm onAddActivity={onAddActivity}/> : null}
+            <ActivityForm 
+                onAddActivity={onAddActivity}/> : null}
+
+            <h1 className="upcoming-activities">Upcoming Activities</h1> 
             {activityList}      
+         
         </div>
     )
 }
 
 export default Activities
+
+
+ {/* <ActivityCalendar /> */}

@@ -7,7 +7,8 @@ const key=apikey
 
 const containerStyle = {
   width: '400px',
-  height: '400px'
+  height: '400px',
+  
 };
 
 const center = {
@@ -44,18 +45,18 @@ function MapComponent() {
         return <h3>Loading...</h3>;
       }
     return  (
-        <div>
-  
+      <div >
+        <div >
           <GoogleMap
             mapContainerStyle={containerStyle}
             center={center}
             zoom={10}
-         
           >
               <MarkerComponent/>
             <></>
           </GoogleMap>
         </div>
+      </div>
       )
     }
 

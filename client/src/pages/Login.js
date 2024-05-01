@@ -32,7 +32,7 @@ function Login() {
                 body: JSON.stringify(values)
             })
             .then(res => {
-                if(res.status == 200) {
+                if(res.status === 200) {
                     res.json().then(userData => {
                         login(userData)
                         navigate('/activities')})

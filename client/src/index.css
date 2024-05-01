@@ -15,6 +15,11 @@ body {
   background-size: cover;
 }
 
+.nav-main {
+  padding-left: 10px;
+}
+
+
 
 .Auth-form-container {
   display: flex;
@@ -46,4 +51,40 @@ body {
   font-size: 24px;
   color: rgb(34, 34, 34);
   font-weight: 800;
+}
+
+/* .activities-container {
+  background-color: white;
+} */
+
+.single-activities-container {
+  padding-top: 20px;
+
+}
+
+.upcoming-activities {
+  padding-top: 30px;
+  padding-bottom: 25px;
+}
+
+.activity-detail {
+  padding-top: 10px;
+  padding-bottom: 20px;
+}
+
+.homepage {
+  position: absolute;
+  text-align: center;
+  font-family: 'Wedges', sans-serif;
+  color: #76BDE6;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgb(248, 209, 209);
+  padding: 20px;
+}
+
+.back-to-events-btn {
+  padding-top: 10px;
+
 }

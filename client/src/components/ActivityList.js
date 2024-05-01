@@ -3,8 +3,8 @@ import { ReviewContext } from "../context/ReviewContext";
 import { UserContext } from "../context/UserContext";
 import { useNavigate, Link  } from "react-router-dom";
 import { SingleActivityContext } from "../context/SingleActivityContext"
-import {Container, Col, Row} from 'react-bootstrap';
- 
+import {Container, Col, Row, Card} from 'react-bootstrap';
+import free from '../images/free.png'
 
 function ActivityList({activity}) {
 
@@ -15,7 +15,7 @@ function ActivityList({activity}) {
     const {setSingleActivity} = useContext(SingleActivityContext)
     
      const reviewList = reviews.map((review) => (
-        <p key={review.id}>{review.comments}</p>
+        <Card.Text key={review.id}>{"\"" + review.comments + "\""}</Card.Text>
     ))
 
     function handleReviewClick() {
@@ -30,8 +30,9 @@ function ActivityList({activity}) {
                 .then(data => {
                     // console.log(data)
                     setSingleActivity(data)
-                    })
                     navigate(`/activities/${activity.id}`)
+                    })
+                    
             } else {
                 res.json().then(data => console.log(data.error))
             }}
@@ -40,22 +41,29 @@ function ActivityList({activity}) {
     }
 
     return (
-        <div>
+        <div >
            <Container>
+            <Card className='mt-5 mb-5'>
+
             <Row>
                 <Col>
-                    <h3 onClick={handleClick}>{activity.title}</h3>
-                    <p>Description: {activity.description}</p>
-                    <h4>Reviews: {numOfReviews}</h4><button onClick={handleReviewClick}>Add Review</button> 
-                    {reviewList}
+                    <Card.Title onClick={handleClick}>{activity.title}</Card.Title>
+                    <Card.Text>Description: {activity.description}</Card.Text>
+                    <button onClick={handleReviewClick}>Add Review</button> 
+                    <Card.Footer>
+                    <Card.Title>Reviews: {numOfReviews}</Card.Title>
+                        {reviewList}
+                    </Card.Footer>
                 </Col>
                 <Col >
-                    <p>Location: {activity.location}</p>
-                    <p>Date/Time: {activity.date_converter}</p>
+                    <Card.Text><strong>Location:</strong> {activity.location}</Card.Text>
+                    <Card.Text><strong>Date/Time: </strong>{activity.date_converter}</Card.Text>
                     {activity.free ? 
-                    <p><strong>FREE</strong></p>: null}
+                    <img src={free}/>: null}
+            
                 </Col>
             </Row>
+            </Card>
 
            </Container>
         </div>

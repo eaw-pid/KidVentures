@@ -4,6 +4,7 @@ import moment from 'moment';
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
 import { ActivityContext } from "../context/ActivityContext";
+import { SingleActivityContext } from "../context/SingleActivityContext";
 
 const localizer = momentLocalizer(moment)
 
@@ -11,6 +12,7 @@ function BigCalendar() {
     
     const navigate = useNavigate()
     const {activities} = useContext(ActivityContext)
+    const {setSingleActivity} = useContext(SingleActivityContext)
     
     const events = activities.map((activity)=>{
         return {
@@ -29,7 +31,20 @@ function BigCalendar() {
     } 
 
     function handleSelected(event) {
-        navigate(`/activities/${event.id}`)
+        fetch(`/activities/${event.id}`)
+        .then(res => {
+            if(res.status == 200) {
+                res.json()
+                .then(data => {
+                    // console.log(data)
+                    setSingleActivity(data)
+                    navigate(`/activities/${event.id}`)
+                    })
+                    
+            } else {
+                res.json().then(data => console.log(data.error))
+            }}
+        )
     }
 
     console.log(activities)

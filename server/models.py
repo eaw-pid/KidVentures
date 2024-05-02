@@ -174,8 +174,13 @@ class Signup(db.Model, SerializerMixin):
 class Review(db.Model, SerializerMixin):
     __tablename__ = "reviews"
 
-    serialize_rules = ('-user',
-                       '-activity',)
+    serialize_rules = ('-user.reviews',
+                       '-user.categories',
+                        '-user.signups',
+                        '-user.email',
+                        '-user._password_hash',
+                       '-activity',
+                       )
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"))

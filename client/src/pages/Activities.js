@@ -8,6 +8,7 @@ import { ActivityContext } from "../context/ActivityContext";
 import { UserContext } from "../context/UserContext";
 import { DateValueContext } from "../context/DateValueContext";
 import { CategoryContext } from "../context/CategoryContext";
+import { ReviewContext } from '../context/ReviewContext'
 import { useNavigate } from "react-router-dom";
 import {Container, Navbar, Button, Nav} from 'react-bootstrap';
 
@@ -17,9 +18,11 @@ function Activities () {
     const {currentUser} = useContext(UserContext)
     const [clicked, setIsClicked] = useState(false)
     const {dateValue} = useContext(DateValueContext)    
+    // const {reviews, setReviews} = useContext(ReviewContext)
     const {categories, setCategories} = useContext(CategoryContext)
     const [dropdown, setDropdown] = useState("all")
     const [freeClick, setFreeClick] = useState(false)
+
     const navigate = useNavigate()
     let selectedCategory
     let filt_act
@@ -81,25 +84,17 @@ function Activities () {
       }
 
     
-      
-  //TO DO only LIST ACTIVITIES AFTER CURRENT DAY
-    // const filteredActivities = dateValue.length > 0 
-    //         ? activities
-    //         .filter(act => act.start_time.slice(0, 10) === dateValue) 
-    //         .filter(act => act.free === true)
-    //         : activities;
-   
-
-
-    
 
     function handleCalendarClick() {
         navigate('/calendar')
     }
 
-    const activityList = filt_act.map((activity) => (
-            <ActivityList key={activity.id} activity={activity}  />
-        ))
+    const activityList = filt_act.map((activity) => {
+        // console.log(activity.reviews)
+        //     setReviews(activity.reviews)
+        //     console.log(reviews)
+          return  <ActivityList key={activity.id} activity={activity}  />
+})
 
     if (!currentUser) {
         return null;

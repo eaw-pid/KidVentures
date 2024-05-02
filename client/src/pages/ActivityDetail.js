@@ -1,5 +1,5 @@
-import React, {useContext} from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, {useContext, useEffect} from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import { SingleActivityContext } from "../context/SingleActivityContext"
 import MapComponent from "../components/MapComponent";
@@ -9,12 +9,24 @@ import { Card } from 'react-bootstrap';
 
 function ActivityDetail() {
 
-
     const {currentUser} = useContext(UserContext)
     const navigate = useNavigate()
-    const {singleActivity} = useContext(SingleActivityContext)
-  
-    console.log(singleActivity)
+    const {singleActivity, setSingleActivity} = useContext(SingleActivityContext)
+    const {id} = useParams()
+    // console.log(singleActivity)
+
+
+    useEffect(() => {
+        fetch(`/activities/${id}`)
+        .then(res => {
+            if (res.status === 200) {
+                res.json().then(data => {
+                    console.log(data)
+                    setSingleActivity(data)})
+            }
+        })
+        
+    }, [])
 
     function handleClick() {
         navigate('/activities')
@@ -42,7 +54,9 @@ function ActivityDetail() {
                         <Card.Text><strong>Time: </strong>{singleActivity.date_converter}</Card.Text>
                         {singleActivity.price ? 
                         <Card.Text><strong>Price:</strong> $ {singleActivity.price}</Card.Text>: null}
-                        <Card.Text><strong>More Details: </strong>{singleActivity.registration_link}</Card.Text>
+                        <Card.Text><strong>More Details: </strong> 
+                            <a href={singleActivity.registration_link}>{singleActivity.registration_link}</a> 
+                        </Card.Text>
                     </Card.Body>
                     <Card.Footer>
                          <MapComponent />

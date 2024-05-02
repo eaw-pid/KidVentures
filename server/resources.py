@@ -155,13 +155,55 @@ class ReviewResource(Resource):
         
         except ValueError as err:
             return {"error": str(err)}, 422
+    
+class ReviewById(Resource):
 
-class ReviewByActivityId(Resource):
     def get(self, id):
+        review = Review.query.filter_by(id=id).first()
 
-        reviews = [review.to_dict() for review in Review.query.filter_by(activity_id=id).all()]
+        if review:
+            return review.to_dict(), 200
+        else:
+            return {"Error": "Cannot find activity"}, 422
+        
+    def delete(self, id):
+        review = Review.query.filter_by(id=id).first()
+        if review:
+            db.session.delete(review)
+            db.session.commit()
 
-        return reviews, 200
+            return {"message": "Delete Successful"}
+        else:
+            return {"error": "cannot find"}
+        
+
+    def patch(self, id):
+        review = Review.query.filter_by(id=id).first()
+        if review:
+           
+            try: 
+                form_data = request.get_json()
+                for attr in form_data:
+                    setattr(review, attr, form_data.get(attr))
+
+                db.session.add(review)
+                db.session.commit()
+
+                return review.to_dict(), 200
+            
+            except ValueError as err:
+                return {"error": str(err)}, 422
+        else:
+            return {"message": "Review not found"}, 400
+    
+# class ReviewByActivityId(Resource):
+#     def get(self, id):
+
+#         reviews = [review.to_dict() for review in Review.query.filter_by(activity_id=id).all()]
+
+#         return reviews, 200
+    
+   
     
 class CategoryResource(Resource):
     def get(self):
@@ -272,7 +314,8 @@ api.add_resource(ActivityResource, '/activities')
 api.add_resource(ActivityById, '/activities/<int:id>')
 api.add_resource(SignupResource, '/signups')
 api.add_resource(ReviewResource, '/reviews')
-api.add_resource(ReviewByActivityId, '/reviews/<int:id>')
+api.add_resource(ReviewById, '/reviews/<int:id>')
+# api.add_resource(ReviewByActivityId, '/reviews/<int:id>')
 api.add_resource(CategoryResource, '/categories')
 api.add_resource(ActivityCategoryResource, '/activity-categories')
 api.add_resource(ActivityCategoryById, '/activity-categories/<int:id>')

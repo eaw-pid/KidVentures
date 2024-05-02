@@ -4,7 +4,7 @@ import * as yup from "yup";
 import { UserContext } from '../context/UserContext'
 import { CategoryContext } from '../context/CategoryContext'
 import { useNavigate } from 'react-router-dom';
-
+import { Form, Dropdown, Button, Row, Col } from 'react-bootstrap'
 
 
 function ActivityFormTwo({newActivity}) {
@@ -88,36 +88,43 @@ function ActivityFormTwo({newActivity}) {
     function handleClick() {
         setAddSecond((addSecond) => !addSecond)
     }
-
+    console.log(firstCategory)
     return (
-        <div>
-            <h3>Select Categories</h3>
-            <form onSubmit={formik2.handleSubmit}>
+        <div className="form-two">
+            <Form onSubmit={formik2.handleSubmit}>
+            <Form.Label >Select Categories</Form.Label>
                 <h4> 1st Category</h4>
-                <select name="category" value={firstCategory} onChange={(e) => {
-                                                console.log(e.target.value)
-                                                setFirstCategory(e.target.value)}}>
-                    <option>Select An Option</option>
-                    {categories.map((category) => (
-                        <option key={category.id} value={category.type}>{category.type}</option>
-                    ))}
-                 </select>
+                <Dropdown name="category" onSelect={(eventKey) => {
+                    console.log(eventKey)
+                    setFirstCategory(eventKey)
+                    setAddSecond(true)}}>
+                    <Dropdown.Toggle>Select An Option</Dropdown.Toggle>
+                    <Dropdown.Menu>
+
+                        {categories.map((category) => (
+                            <Dropdown.Item key={category.id} eventKey={category.type}>{category.type}</Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                 </Dropdown>
                 <button type="button" onClick={handleClick}>Add Another Category</button>
                 {addSecond ?
                 <>
                 <h4> 2nd Category</h4>
-                <select name="category" value={secondCategory} onChange={(e) => {
-                    console.log(e.target.value)
-                    setSecondCategory(e.target.value)}}>
-                    <option>Select An Option</option>
-                    {categories.map((category) => (
-                        <option key={category.id} value={category.type}>{category.type}</option>
-                    ))}
-                 </select>
+                <Dropdown name="category" onSelect={(eventKey) => {
+                    console.log(eventKey)
+                    setSecondCategory(eventKey)
+                    }}>
+                    <Dropdown.Toggle>Select An Option</Dropdown.Toggle>
+                    <Dropdown.Menu>
+                        {categories.map((category) => (
+                            <Dropdown.Item key={category.id} eventKey={category.type}>{category.type}</Dropdown.Item>
+                        ))}
+                    </Dropdown.Menu>
+                 </Dropdown>
                  </>
                  : null }
                 <button type="submit">Done</button>
-            </form>
+            </Form>
         </div>
 
     )

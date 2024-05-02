@@ -53,9 +53,17 @@ body {
   font-weight: 800;
 }
 
-/* .activities-container {
+.calendar-container {
   background-color: white;
-} */
+  padding-top: 30px;
+  padding-bottom: 150px;
+}
+
+.calendar-button {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  
+}
 
 .single-activities-container {
   padding-top: 20px;
@@ -87,4 +95,9 @@ body {
 .back-to-events-btn {
   padding-top: 10px;
 
+}
+
+.form-two {
+  padding-left: 12%;
+  padding-right: 12%;
 }

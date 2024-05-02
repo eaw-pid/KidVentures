@@ -3,7 +3,6 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import { UserContext } from '../context/UserContext'
 import { Form, Button, Row, Col } from 'react-bootstrap'
-
 import DateTimePicker from 'react-datetime-picker'
 import 'react-datetime-picker/dist/DateTimePicker.css'
 import ActivityFormTwo from './ActivityFormTwo';
@@ -70,7 +69,7 @@ function ActivityForm({onAddActivity}) {
         return error ? <p style={{color: "red"}}>{error}</p> : null}
 
     return (
-       <div >
+       <div className="form-two">
         <Form onSubmit={formik1.handleSubmit}>
             <h3>Add a New Activity</h3>
             <Row>

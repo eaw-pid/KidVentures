@@ -3,7 +3,7 @@ import { ReviewContext } from "../context/ReviewContext";
 import { UserContext } from "../context/UserContext";
 import { useNavigate, Link  } from "react-router-dom";
 import { SingleActivityContext } from "../context/SingleActivityContext"
-import {Container, Col, Row, Card, Button} from 'react-bootstrap';
+import {Container, Col, Row, Card, Button, Form} from 'react-bootstrap';
 import free from '../images/free.png'
 import AddReviewForm from "./AddReviewForm";
 
@@ -16,25 +16,88 @@ function ActivityList({activity}) {
     const {reviews} = activity
     const {setSingleActivity} = useContext(SingleActivityContext)
     const [addReviewClick, setAddReviewClick] = useState(false)
-    
+    // const [editReviewClick, setEditReviewClick] = useState(false)
+    const [reviewInput, setReviewInput] = useState("")
+    // const [newInput, setNewInput] = useState("")
+    // const [editedReviews, setEditedReviews] = useState("");
+    const [editReviewId, setEditReviewId] = useState(null);
     // console.log(reviews)
     // console.log(currentUser.id)
 
 
     function handleReviewClick() {
-     
         setAddReviewClick((addReviewClick) => !addReviewClick)
     }
-     const reviewList = reviews.map((review) => {
-        console.log(review.user.username)
-        return (
-            <>
-            <Card.Text key={review.id}>{"\"" + review.comments + "\" - " + review.user.username}
-                {review.user.id === currentUser.id ? 
-                <Button>Edit</Button> : null}
-            </Card.Text>
 
-            </>
+    function handleDeleteClick(review) {
+        fetch(`/reviews/${review.id}`, {
+            method: "DELETE",
+        })
+        .then(res => res.json())
+        .then(() => window.location.reload())
+    }
+
+
+
+    function handleEditClick(review) {
+        console.log(review)
+        setEditReviewId(review.id);
+        setReviewInput(review.comments)
+    }
+   
+
+    function handleInputChange(e) {
+        setReviewInput(e.target.value);
+    }
+ 
+
+    function handleSubmit(review, e) {
+        e.preventDefault()
+        console.log(review.id)
+        console.log('After submit:', reviewInput)
+        const newComment = {
+            comments: reviewInput
+        }
+        fetch(`/reviews/${review.id}`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(newComment)
+        })
+        .then(res => {
+            if (res.status === 200) {
+                res.json().then(window.location.reload())
+            }
+        })
+      
+        setEditReviewId(null); // Clear the edit state after submission
+    }
+
+     const reviewList = reviews.map((review) => {
+        // console.log(review.user.username)
+        return (
+            <React.Fragment key={review.id}>
+            <Card.Text >{"\"" + review.comments + "\" - " + review.user.username}
+                {review.user.id === currentUser.id ? 
+                <>
+                <Button onClick={() => handleEditClick(review)}>Edit</Button>
+                <Button onClick={() => handleDeleteClick(review)}>Delete</Button> 
+                </>
+                : null}
+            </Card.Text>
+            {editReviewId === review.id ? 
+            <Form onSubmit={(e) => handleSubmit(review,e)}>
+                <Form.Label>Edit</Form.Label>
+                <Form.Control type="text"
+                    name="review"
+                    value={reviewInput}
+                    onChange={handleInputChange}/>
+                <Button type="submit">Submit</Button>
+            </Form>
+            : null}
+
+            </React.Fragment>
         )
 })
 
@@ -65,7 +128,7 @@ function ActivityList({activity}) {
             <Row>
                 <Col xs={8}>
                     <Card.Title onClick={handleClick}>{activity.title}</Card.Title>
-                    <Card.Text>Description: {activity.description}</Card.Text>
+                    <Card.Text><strong>Description:</strong>Description: {activity.description}</Card.Text>
                     
                     <button onClick={handleReviewClick}>Add Review</button> 
                 {addReviewClick ? 

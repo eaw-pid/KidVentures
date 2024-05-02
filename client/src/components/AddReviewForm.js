@@ -10,9 +10,7 @@ function AddReview({activity}) {
 
     function handleSubmit(e) {
         e.preventDefault()
-        console.log(newReview)
-        console.log(activity.id)
-        console.log(currentUser.id)
+   
         const newPost = {
             activity_id: activity.id,
             user_id: currentUser.id,

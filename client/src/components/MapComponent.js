@@ -1,6 +1,7 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { SingleActivityContext } from "../context/SingleActivityContext"
 import apikey from "../config";
+import { useParams } from "react-router-dom";
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
 
 const key=apikey
@@ -20,15 +21,28 @@ const lib = ['places']
 
 function MapComponent() {
   
-  const {singleActivity} = useContext(SingleActivityContext)
-  
+  const {singleActivity, setSingleActivity} = useContext(SingleActivityContext)
+  const {id} = useParams()
   const { isLoaded, loadError } = useJsApiLoader({
     libraries: lib,
         googleMapsApiKey: key
       })
-     
-
     
+    console.log(id)
+    console.log(singleActivity)
+    console.log(singleActivity.geolocator)
+
+    useEffect(() => {
+      fetch(`/activities/${id}`)
+      .then(res => {
+          if (res.status === 200) {
+              res.json().then(data => {
+                  console.log(data)
+                  setSingleActivity(data)})
+          }
+      })
+      
+  }, [])
     
     function MarkerComponent() {
         return  (

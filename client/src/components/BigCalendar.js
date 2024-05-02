@@ -35,16 +35,20 @@ function BigCalendar() {
     console.log(activities)
     
     return (
-        <div>
-            <button onClick={handleClick}>Back to Activities</button>
-            <Calendar 
-                localizer={localizer}
-                events={events}
-                startAccessor="start"
-                endAccessor="end"
-                onSelectEvent={handleSelected}
-                style={{ height: 550 }}
-                />
+        <div >
+            <div className="calendar-button">
+                <button onClick={handleClick}>Back to Activities</button>
+            </div>
+            <div className="calendar-container">
+                <Calendar 
+                    localizer={localizer}
+                    events={events}
+                    startAccessor="start"
+                    endAccessor="end"
+                    onSelectEvent={handleSelected}
+                    style={{ height: 550 }}
+                    />
+            </div>
 
         </div>
     )

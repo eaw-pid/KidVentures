@@ -112,8 +112,9 @@ function Activities () {
             {clicked ? 
             <ActivityForm 
                 onAddActivity={onAddActivity}/> : null}
-
-            <h1 className="upcoming-activities">Upcoming Activities</h1> 
+            <Container>
+                 <h1 className="upcoming-activities">Upcoming Activities</h1> 
+            </Container>
             {activityList}      
          
         </div>
@@ -123,4 +124,3 @@ function Activities () {
 export default Activities
 
 
- {/* <ActivityCalendar /> */}

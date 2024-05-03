@@ -23,6 +23,19 @@ function MapComponent() {
   
   const {singleActivity, setSingleActivity} = useContext(SingleActivityContext)
   const {id} = useParams()
+  
+//   useEffect(() => {
+//     fetch(`/activities/${id}`)
+//     .then(res => {
+//         if (res.status === 200) {
+//             res.json().then(data => {
+//                 console.log(data)
+//                 setSingleActivity(data)})
+//         }
+//     })
+    
+// }, [])
+  
   const { isLoaded, loadError } = useJsApiLoader({
     libraries: lib,
         googleMapsApiKey: key
@@ -32,32 +45,18 @@ function MapComponent() {
     console.log(singleActivity)
     console.log(singleActivity.geolocator)
 
-    useEffect(() => {
-      fetch(`/activities/${id}`)
-      .then(res => {
-          if (res.status === 200) {
-              res.json().then(data => {
-                  console.log(data)
-                  setSingleActivity(data)})
-          }
-      })
-      
-  }, [])
     
-    function MarkerComponent() {
-        return  (
-          <Marker
-            position={{
-              lat: singleActivity.geolocator[1][0],
-              lng: singleActivity.geolocator[1][1]
-            }}
-          />
-        );
+
+      if (loadError) {
+        return <div>Error loading maps: {loadError.message}</div>;
       }
 
-      if (!isLoaded || !singleActivity) {
-        return <h3>Loading...</h3>;
+        // Check if singleActivity exists and has a geolocator property
+
+      if (!isLoaded || !singleActivity.geolocator) {
+        return <div>Loading...</div>;
       }
+
     return  (
       <div >
         <div >
@@ -66,7 +65,16 @@ function MapComponent() {
             center={center}
             zoom={10}
           >
-              <MarkerComponent/>
+            {/* Check if geolocator is an array with 2 elements*/}
+            
+            {Array.isArray(singleActivity.geolocator) && singleActivity.geolocator.length === 2 && (
+              <Marker
+                position={{
+                  lat: singleActivity.geolocator[1][0],
+                  lng: singleActivity.geolocator[1][1]
+                }}
+              />
+            )}
             <></>
           </GoogleMap>
         </div>
@@ -75,3 +83,22 @@ function MapComponent() {
     }
 
 export default MapComponent
+
+
+// function MarkerComponent() {
+    //     return  (
+    //       <Marker
+    //         position={{
+    //           lat: singleActivity.geolocator[1][0],
+    //           lng: singleActivity.geolocator[1][1]
+    //         }}
+    //       />
+    //     );
+    //   }
+
+    
+      // if (!singleActivity) {
+      //   return null
+      // }
+
+        {/* <MarkerComponent/> */}

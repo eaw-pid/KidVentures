@@ -70,4 +70,3 @@ function ActivityDetail() {
 
 export default ActivityDetail
 
-// const {id} = useParams()

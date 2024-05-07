@@ -101,3 +101,11 @@ body {
   padding-left: 12%;
   padding-right: 12%;
 }
+
+.activity-list {
+  background: coral;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin-left: 30em;
+  margin-right: 30em;
+}

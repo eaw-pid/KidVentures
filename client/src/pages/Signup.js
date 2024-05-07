@@ -39,7 +39,9 @@ function Signup() {
                         login(userData)
                         navigate('/activities')})
                 } else {
-                    res.json().then(data => console.log(data.error))
+                    res.json().then(data => {
+                        alert(data.error)
+                        console.log(data.error)})
                 }
             })
            

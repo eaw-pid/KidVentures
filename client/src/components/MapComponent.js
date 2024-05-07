@@ -24,17 +24,7 @@ function MapComponent() {
   const {singleActivity, setSingleActivity} = useContext(SingleActivityContext)
   const {id} = useParams()
   
-//   useEffect(() => {
-//     fetch(`/activities/${id}`)
-//     .then(res => {
-//         if (res.status === 200) {
-//             res.json().then(data => {
-//                 console.log(data)
-//                 setSingleActivity(data)})
-//         }
-//     })
-    
-// }, [])
+
   
   const { isLoaded, loadError } = useJsApiLoader({
     libraries: lib,
@@ -102,3 +92,15 @@ export default MapComponent
       // }
 
         {/* <MarkerComponent/> */}
+
+        //   useEffect(() => {
+//     fetch(`/activities/${id}`)
+//     .then(res => {
+//         if (res.status === 200) {
+//             res.json().then(data => {
+//                 console.log(data)
+//                 setSingleActivity(data)})
+//         }
+//     })
+    
+// }, [])

@@ -97,7 +97,7 @@ function Activities () {
 })
 
     if (!currentUser) {
-        return null;
+        return <h1>You must be logged in to view this page.</h1>;
     }
  
     return(
@@ -115,7 +115,10 @@ function Activities () {
             <Container>
                  <h1 className="upcoming-activities">Upcoming Activities</h1> 
             </Container>
-            {activityList}      
+            <div className="activity-list">
+
+              {activityList}      
+            </div>
          
         </div>
     )

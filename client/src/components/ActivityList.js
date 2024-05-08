@@ -1,9 +1,8 @@
-import React, {useContext, useState, useEffect} from "react";
-import { ReviewContext } from "../context/ReviewContext";
+import React, {useContext, useState} from "react";
 import { UserContext } from "../context/UserContext";
-import { useNavigate, Link  } from "react-router-dom";
+import { useNavigate} from "react-router-dom";
 import { SingleActivityContext } from "../context/SingleActivityContext"
-import {Container, Col, Row, Card, Button, Form} from 'react-bootstrap';
+import {Container, Col, Row, Card, Button, Form, Modal} from 'react-bootstrap';
 import free from '../images/free.png'
 import AddReviewForm from "./AddReviewForm";
 
@@ -12,21 +11,15 @@ function ActivityList({activity}) {
     const numOfReviews = ((activity.reviews).length)
     const navigate = useNavigate()
     const {currentUser} = useContext(UserContext)
-    // const {reviews, setReviews} = useContext(ReviewContext)
     const {reviews} = activity
     const {setSingleActivity} = useContext(SingleActivityContext)
-    const [addReviewClick, setAddReviewClick] = useState(false)
-    // const [editReviewClick, setEditReviewClick] = useState(false)
     const [reviewInput, setReviewInput] = useState("")
-    // const [newInput, setNewInput] = useState("")
-    // const [editedReviews, setEditedReviews] = useState("");
     const [editReviewId, setEditReviewId] = useState(null);
-    // console.log(reviews)
-    // console.log(currentUser.id)
+    const [show, setShow] = useState(false)
 
 
     function handleReviewClick() {
-        setAddReviewClick((addReviewClick) => !addReviewClick)
+        setShow(true)
     }
 
     function handleDeleteClick(review) {
@@ -131,9 +124,12 @@ function ActivityList({activity}) {
                     <Card.Text><strong>Description:</strong>Description: {activity.description}</Card.Text>
                     
                     <button onClick={handleReviewClick}>Add Review</button> 
-                {addReviewClick ? 
-                <AddReviewForm activity={activity}/>
-                : null}   
+              
+                <Modal show={show}>
+
+                    <AddReviewForm activity={activity} setShow={setShow}/>
+                </Modal>
+       
                     <Card.Footer>
                     <Card.Title>Comments/Reviews: {numOfReviews}</Card.Title>
                         {reviewList}

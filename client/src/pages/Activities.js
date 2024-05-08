@@ -10,7 +10,7 @@ import { DateValueContext } from "../context/DateValueContext";
 import { CategoryContext } from "../context/CategoryContext";
 import { ReviewContext } from '../context/ReviewContext'
 import { useNavigate } from "react-router-dom";
-import {Container, Navbar, Button, Nav} from 'react-bootstrap';
+import {Container, Modal} from 'react-bootstrap';
 
 function Activities () {
 
@@ -22,6 +22,7 @@ function Activities () {
     const {categories, setCategories} = useContext(CategoryContext)
     const [dropdown, setDropdown] = useState("all")
     const [freeClick, setFreeClick] = useState(false)
+    const [show, setShow] = useState(false)
 
     const navigate = useNavigate()
     let selectedCategory
@@ -108,10 +109,19 @@ function Activities () {
                 setFreeClick={setFreeClick}
                 handleCalendarClick={handleCalendarClick}
                 clicked={clicked}
-                setIsClicked={setIsClicked}/>
-            {clicked ? 
-            <ActivityForm 
-                onAddActivity={onAddActivity}/> : null}
+                setIsClicked={setIsClicked}
+                setShow={setShow}/>
+            {/* {clicked ?  */}
+            <Modal show={show}
+                size="lg"
+                aria-labelledby="contained-modal-title-vcenter"
+                centered>
+                    <ActivityForm 
+                        onAddActivity={onAddActivity}
+                        setShow={setShow}/> 
+            </Modal>
+             
+                {/* : null} */}
             <Container>
                  <h1 className="upcoming-activities">Upcoming Activities</h1> 
             </Container>

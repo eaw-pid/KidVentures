@@ -7,7 +7,7 @@ import DateTimePicker from 'react-datetime-picker'
 import 'react-datetime-picker/dist/DateTimePicker.css'
 import ActivityFormTwo from './ActivityFormTwo';
 
-function ActivityForm({onAddActivity}) {
+function ActivityForm({onAddActivity, setShow}) {
 
     const {currentUser} = useContext(UserContext)
     const [activityDate, setActivityDate] = useState(new Date())
@@ -71,7 +71,10 @@ function ActivityForm({onAddActivity}) {
     return (
        <div className="form-two">
         <Form onSubmit={formik1.handleSubmit}>
-            <h3>Add a New Activity</h3>
+            <div className="form-header">
+                <h3>Add a New Activity</h3>
+                <button className="close-button" onClick={() => setShow(false)}>X</button>
+            </div>
             <Row>
                 <Form.Group as={Col}>
 
@@ -150,7 +153,7 @@ function ActivityForm({onAddActivity}) {
             <Button type="submit">Next: Select Categories</Button>     
         </Form>
         {clicked ?
-            <ActivityFormTwo newActivity={newActivity}/>     
+            <ActivityFormTwo setShow={setShow} newActivity={newActivity}/>     
         : null }
        </div> 
        

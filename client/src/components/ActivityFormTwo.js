@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { Form, Dropdown, Button, Row, Col } from 'react-bootstrap'
 
 
-function ActivityFormTwo({newActivity}) {
+function ActivityFormTwo({newActivity, setShow}) {
 
     const {currentUser} = useContext(UserContext)
     const {categories} = useContext(CategoryContext)
@@ -69,7 +69,9 @@ function ActivityFormTwo({newActivity}) {
                 if(res.status == 201) {
                     return res.json()
                 }})
-        .then(() => window.location.reload())
+        .then(() => {
+            setShow(false)
+            window.location.reload()})
         .catch(error => console.log(error))
     }
     }

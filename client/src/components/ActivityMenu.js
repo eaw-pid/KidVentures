@@ -3,7 +3,7 @@ import { CategoryContext } from '../context/CategoryContext'
 import {NavDropdown, NavItem, Nav, Button, Dropdown} from 'react-bootstrap';
  
 
-function ActivityMenu({dropdown, setDropdown, freeClick, setFreeClick, handleCalendarClick, clicked, setIsClicked}) {
+function ActivityMenu({setShow, dropdown, setDropdown, freeClick, setFreeClick, handleCalendarClick, clicked, setIsClicked}) {
 
     const {categories} = useContext(CategoryContext)
 
@@ -13,7 +13,8 @@ function ActivityMenu({dropdown, setDropdown, freeClick, setFreeClick, handleCal
     }
 
     function handleClick() {
-        setIsClicked((clicked) => !clicked)
+        // setIsClicked((clicked) => !clicked)
+        setShow(true)
     }
     return (
         <div>

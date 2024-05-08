@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from '../context/UserContext'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 
-function AddReview({activity}) {
+function AddReview({activity, setShow}) {
 
     const {currentUser} = useContext(UserContext)
     const [newReview, setNewReview] = useState([])
@@ -25,7 +25,9 @@ function AddReview({activity}) {
         })
         .then(res => {
             if (res.status === 201) {
-                res.json().then(() => window.location.reload())
+                res.json().then(() => {
+                    window.location.reload()
+                    setShow(false)})
             } else {
                 res.json().then(data => console.log(data.error))
             }

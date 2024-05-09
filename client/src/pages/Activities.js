@@ -125,11 +125,9 @@ function Activities () {
             <Container>
                  <h1 className="upcoming-activities">Upcoming Activities</h1> 
             </Container>
-            <div className="activity-list">
-
-              {activityList}      
-            </div>
-         
+                <div className="activity-list">
+                    {activityList}      
+                </div>
         </div>
     )
 }

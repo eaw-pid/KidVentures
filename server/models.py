@@ -61,7 +61,7 @@ class Activity(db.Model, SerializerMixin):
                        '-categories.category',
                        'date_converter',
                        'full_address',
-                    #    'geolocator',
+                       '-signups',
                        )
 
     id = db.Column(db.Integer, primary_key=True)

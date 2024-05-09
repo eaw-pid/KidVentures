@@ -77,7 +77,6 @@ function ActivityForm({onAddActivity, setShow}) {
             </div>
             <Row>
                 <Form.Group as={Col}>
-
                     <Form.Label>Title:</Form.Label>
                     <Form.Control type="text" name="title" value={formik1.values.title} onChange={formik1.handleChange}/>
                     {displayErrors(formik1.errors.title)}

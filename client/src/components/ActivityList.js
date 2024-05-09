@@ -1,6 +1,7 @@
 import React, {useContext, useState} from "react";
 import { UserContext } from "../context/UserContext";
 import { useNavigate} from "react-router-dom";
+import { ActivityContext } from "../context/ActivityContext";
 import { SingleActivityContext } from "../context/SingleActivityContext"
 import {Container, Col, Row, Card, Button, Form, Modal} from 'react-bootstrap';
 import free from '../images/free.png'
@@ -12,41 +13,57 @@ function ActivityList({activity}) {
     const navigate = useNavigate()
     const {currentUser} = useContext(UserContext)
     const {reviews} = activity
+    const {activities, setActivities} = useContext(ActivityContext)
     const {setSingleActivity} = useContext(SingleActivityContext)
     const [reviewInput, setReviewInput] = useState("")
     const [editReviewId, setEditReviewId] = useState(null);
     const [show, setShow] = useState(false)
 
+    console.log(currentUser)
 
     function handleReviewClick() {
         setShow(true)
     }
+
 
     function handleDeleteClick(review) {
         fetch(`/reviews/${review.id}`, {
             method: "DELETE",
         })
         .then(res => res.json())
-        .then(() => window.location.reload())
+        .then(() => {
+            // Filter out the deleted review
+            const updatedActivities = activities.map(activityItem => {
+                if (activityItem.id === activity.id) {
+                    // Update the reviews array excluding the deleted review
+                    return {
+                        ...activityItem,
+                        reviews: activityItem.reviews.filter(r => r.id !== review.id)
+                    };
+                }
+                return activityItem;
+            });
+            // Update the state with the modified activities
+            setActivities(updatedActivities);
+        })
+        .catch(error => {
+            console.error('Error deleting review:', error);
+        });
     }
 
 
-
     function handleEditClick(review) {
-        console.log(review)
         setEditReviewId(review.id);
         setReviewInput(review.comments)
     }
    
-
     function handleInputChange(e) {
         setReviewInput(e.target.value);
     }
  
 
-    function handleSubmit(review, e) {
+    function handleUpdateSubmit(review, e) {
         e.preventDefault()
-        console.log(review.id)
         console.log('After submit:', reviewInput)
         const newComment = {
             comments: reviewInput
@@ -60,15 +77,44 @@ function ActivityList({activity}) {
         })
         .then(res => {
             if (res.status === 200) {
-                res.json().then(window.location.reload())
+                return res.json()
+            } else {
+                throw new Error('Failed to add review')
             }
         })
+        .then((data) => {
+            console.log(data)
+            const updatedActivities = activities.map(activityItem => {
+                if(activityItem.id === activity.id) {
+                    //update the reviews array
+                    return {
+                        ...activityItem,
+                        reviews: activityItem.reviews.map((r) => {
+                            if (r.id === data.id) {
+                                return data
+                            } else {
+                                return r
+                            }
+                        })
+                    }
+                }
+                return activityItem
+            })
+            console.log(updatedActivities)
+            setActivities(updatedActivities)
+            setEditReviewId(null)
+            
+        })
+        // .then(res => {
+        //     if (res.status === 200) {
+        //         res.json().then(window.location.reload())
+        //     }
+        // })
       
-        setEditReviewId(null); // Clear the edit state after submission
+        // setEditReviewId(null);  Clear the edit state after submission
     }
 
      const reviewList = reviews.map((review) => {
-        // console.log(review.user.username)
         return (
             <React.Fragment key={review.id}>
             <Card.Text >{"\"" + review.comments + "\" - " + review.user.username}
@@ -80,7 +126,7 @@ function ActivityList({activity}) {
                 : null}
             </Card.Text>
             {editReviewId === review.id ? 
-            <Form onSubmit={(e) => handleSubmit(review,e)}>
+            <Form onSubmit={(e) => handleUpdateSubmit(review,e)}>
                 <Form.Label>Edit</Form.Label>
                 <Form.Control type="text"
                     name="review"
@@ -124,12 +170,13 @@ function ActivityList({activity}) {
                     <Card.Text><strong>Description:</strong>Description: {activity.description}</Card.Text>
                     
                     <button onClick={handleReviewClick}>Add Review</button> 
-              
-                <Modal show={show}>
-
-                    <AddReviewForm activity={activity} setShow={setShow}/>
+            
+                <Modal show={show}
+                    size="lg"
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered>
+                    <AddReviewForm activity={activity} setShow={setShow} reviews={reviews}/>
                 </Modal>
-       
                     <Card.Footer>
                     <Card.Title>Comments/Reviews: {numOfReviews}</Card.Title>
                         {reviewList}
@@ -151,3 +198,16 @@ function ActivityList({activity}) {
 }
 
 export default ActivityList
+
+    // function handleDeleteClick(review) {
+    //     fetch(`/reviews/${review.id}`, {
+    //         method: "DELETE",
+    //     })
+    //     .then(res => res.json())
+    //     .then(() => {
+    //         console.log(activities)
+    //         
+    //     }
+    //         // window.location.reload()
+    // )
+    // }

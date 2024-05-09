@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import { useNavigate } from "react-router-dom";
 import { ActivityContext } from "../context/ActivityContext";
 import { SingleActivityContext } from "../context/SingleActivityContext";
+import { Container } from "react-bootstrap";
 
 const localizer = momentLocalizer(moment)
 
@@ -51,6 +52,8 @@ function BigCalendar() {
     
     return (
         <div >
+            <Container>
+
             <div className="calendar-button">
                 <button onClick={handleClick}>Back to Activities</button>
             </div>
@@ -64,6 +67,7 @@ function BigCalendar() {
                     style={{ height: 550 }}
                     />
             </div>
+            </Container>
 
         </div>
     )

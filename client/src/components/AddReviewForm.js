@@ -53,10 +53,10 @@ function AddReview({activity, setShow}) {
   
     return (
         <div>
-            <Form onSubmit={handleSubmit}>
+            <Form className='pt-3 pb-3 px-3' onSubmit={handleSubmit}>
                 <div className="form-header">
                     <h3>Add New Comment/Review</h3>
-                    <button className="close-button" onClick= {() => setShow(false)}>X</button>
+                    <Button className="close-button" onClick= {() => setShow(false)}>X</Button>
                 </div>
                 <Form.Label>Your Review/Comments</Form.Label>
                 <Form.Control type="text" 

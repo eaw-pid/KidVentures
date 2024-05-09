@@ -57,6 +57,7 @@ body {
   background-color: white;
   padding-top: 30px;
   padding-bottom: 150px;
+ 
 }
 
 .calendar-button {
@@ -106,8 +107,8 @@ body {
   background: coral;
   padding-top: 20px;
   padding-bottom: 20px;
-  margin-left: 100px;
-  margin-right: 100px;
+  margin-left: 150px;
+  margin-right: 150px;
 }
 
 .form-header {
@@ -121,3 +122,25 @@ body {
   border: none;
   cursor: pointer;
 }
+
+.select-categories-btn {
+  padding-top: 10px;
+  padding-bottom: 10px
+}
+.category-dropdown {
+  padding-bottom: 10px
+}
+.second-category-header {
+  padding-top: 20px
+}
+
+.form {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.edit-review-button {
+  margin-right: 5px;
+  margin-left: 10px
+}
+

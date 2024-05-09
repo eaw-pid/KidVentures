@@ -56,6 +56,10 @@ function ActivityList({activity}) {
         setEditReviewId(review.id);
         setReviewInput(review.comments)
     }
+
+    function handleCloseReview() {
+        setEditReviewId(null)
+    }
    
     function handleInputChange(e) {
         setReviewInput(e.target.value);
@@ -105,13 +109,7 @@ function ActivityList({activity}) {
             setEditReviewId(null)
             
         })
-        // .then(res => {
-        //     if (res.status === 200) {
-        //         res.json().then(window.location.reload())
-        //     }
-        // })
-      
-        // setEditReviewId(null);  Clear the edit state after submission
+       
     }
 
      const reviewList = reviews.map((review) => {
@@ -120,14 +118,17 @@ function ActivityList({activity}) {
             <Card.Text >{"\"" + review.comments + "\" - " + review.user.username}
                 {review.user.id === currentUser.id ? 
                 <>
-                <Button onClick={() => handleEditClick(review)}>Edit</Button>
-                <Button onClick={() => handleDeleteClick(review)}>Delete</Button> 
+                <Button className="edit-review-button" onClick={() => handleEditClick(review)}>Edit</Button>
+                <Button className="delete-review-button" onClick={() => handleDeleteClick(review)}>Delete</Button> 
                 </>
                 : null}
             </Card.Text>
             {editReviewId === review.id ? 
             <Form onSubmit={(e) => handleUpdateSubmit(review,e)}>
-                <Form.Label>Edit</Form.Label>
+                <div className="form-header d-flex justify-content-between align-items-center">
+                    <h4><strong>Edit your post:</strong></h4>
+                    <Button onClick={handleCloseReview}>X</Button>
+                </div>
                 <Form.Control type="text"
                     name="review"
                     value={reviewInput}
@@ -163,13 +164,13 @@ function ActivityList({activity}) {
     return (
         <div >
            <Container>
-            <Card className='mt-5 mb-5'>
+            <Card className='mt-5 mb-5 pt-3 px-3'>
             <Row>
                 <Col xs={8}>
                     <Card.Title onClick={handleClick}>{activity.title}</Card.Title>
                     <Card.Text><strong>Description:</strong>Description: {activity.description}</Card.Text>
                     
-                    <button onClick={handleReviewClick}>Add Review</button> 
+                    
             
                 <Modal show={show}
                     size="lg"
@@ -178,8 +179,11 @@ function ActivityList({activity}) {
                     <AddReviewForm activity={activity} setShow={setShow} reviews={reviews}/>
                 </Modal>
                     <Card.Footer>
-                    <Card.Title>Comments/Reviews: {numOfReviews}</Card.Title>
-                        {reviewList}
+                        <div className="d-flex justify-content-between align-items-center">
+                            <Card.Title>Comments/Reviews: {numOfReviews}</Card.Title>
+                            <button onClick={handleReviewClick}>Add a Review/Comment</button> 
+                        </div>
+                    {reviewList}
                     </Card.Footer>
                 </Col>
                 <Col >

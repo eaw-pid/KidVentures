@@ -18,11 +18,7 @@ function ActivityFormTwo({newActivity, setShow}) {
 
 
     function handleSubmitTwo() {
-        // console.log(firstCategory, secondCategory  )
         const category1 = categories.find((cat) => cat.type == firstCategory)
-
-        // console.log(newActivity, category1, category2)
-       
 
         const newActivityCategory1 = {
             activity_id: newActivity.id,
@@ -91,15 +87,21 @@ function ActivityFormTwo({newActivity, setShow}) {
         setAddSecond((addSecond) => !addSecond)
     }
     console.log(firstCategory)
+
     return (
-        <div className="form-two">
-            <Form onSubmit={formik2.handleSubmit}>
-            <Form.Label >Select Categories</Form.Label>
-                <h4> 1st Category</h4>
-                <Dropdown name="category" onSelect={(eventKey) => {
+        <div >
+            <Form className="form" onSubmit={formik2.handleSubmit}>
+                <div className="form-header">
+                    <h2><strong>Select Categories</strong></h2>
+                </div>
+                <div className="form-header">
+                    <h4> 1st Category</h4>
+                </div>
+                <Dropdown  className="category-dropdown" name="category" onSelect={(eventKey) => {
                     console.log(eventKey)
                     setFirstCategory(eventKey)
-                    setAddSecond(true)}}>
+                    // setAddSecond(true)
+                    }}>
                     <Dropdown.Toggle>Select An Option</Dropdown.Toggle>
                     <Dropdown.Menu>
 
@@ -111,11 +113,12 @@ function ActivityFormTwo({newActivity, setShow}) {
                 <button type="button" onClick={handleClick}>Add Another Category</button>
                 {addSecond ?
                 <>
-                <h4> 2nd Category</h4>
-                <Dropdown name="category" onSelect={(eventKey) => {
+                <div className="second-category-header">
+                    <h4> 2nd Category</h4>
+                <Dropdown className="category-dropdown" name="category" onSelect={(eventKey) => {
                     console.log(eventKey)
                     setSecondCategory(eventKey)
-                    }}>
+                }}>
                     <Dropdown.Toggle>Select An Option</Dropdown.Toggle>
                     <Dropdown.Menu>
                         {categories.map((category) => (
@@ -123,6 +126,7 @@ function ActivityFormTwo({newActivity, setShow}) {
                         ))}
                     </Dropdown.Menu>
                  </Dropdown>
+                </div>
                  </>
                  : null }
                 <button type="submit">Done</button>

@@ -14,9 +14,11 @@ function ActivityCalendar() {
     
     return (
         <>
-        <Calendar 
-        value={dateValue}
-        onChange={onChange}/>
+    
+            <Calendar 
+            value={dateValue}
+            onChange={onChange}/>
+    
         </>
     )
 }

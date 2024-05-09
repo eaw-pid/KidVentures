@@ -70,10 +70,10 @@ function ActivityForm({onAddActivity, setShow}) {
 
     return (
        <div className="form-two">
-        <Form onSubmit={formik1.handleSubmit}>
+        <Form className="form" onSubmit={formik1.handleSubmit}>
             <div className="form-header">
                 <h3>Add a New Activity</h3>
-                <button className="close-button" onClick={() => setShow(false)}>X</button>
+                <Button className="close-button" onClick={() => setShow(false)}>X</Button>
             </div>
             <Row>
                 <Form.Group as={Col}>
@@ -149,11 +149,11 @@ function ActivityForm({onAddActivity, setShow}) {
                             setActivityDate(date)}}/>
                 </Col>
             </Row>
-            <Button type="submit">Next: Select Categories</Button>     
+            <Button className="select-categories-btn" type="submit">Next: Select Categories</Button>     
         </Form>
-        {clicked ?
+         {clicked ?
             <ActivityFormTwo setShow={setShow} newActivity={newActivity}/>     
-        : null }
+         : null } 
        </div> 
        
     )

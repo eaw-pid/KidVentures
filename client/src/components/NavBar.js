@@ -15,41 +15,33 @@ function NavBar() {
         logout()
         navigate('/')
     }
-
+    
     return (
-            <Navbar className="bg-primary"  > 
+            <Navbar  className="bg-primary" > 
                 <Navbar.Brand className="nav-main" >
                     <Nav.Link as={NavLink} to={!currentUser ?  "/" : "/activities" }>
                         <img src={kidventures} alt="KidVentures"/>
                     </Nav.Link>
                 </Navbar.Brand>
               
-            {/* <Container> */}
+            
                 {!currentUser ?  
                 <>
                <Nav className="px-0">
 
-                        <Nav.Link className="nav-link" as={NavLink} to="/login">Login</Nav.Link>
+                        <Nav.Link className="nav-link-custom-link" as={NavLink} to="/login">Login</Nav.Link>
                         
-                        <Nav.Link className="nav-link" as={NavLink} to="/signup">Signup</Nav.Link>
+                        <Nav.Link className="nav-link-custom-link" as={NavLink} to="/signup">Signup</Nav.Link>
                </Nav>
                 </>
                 : 
                 <>
-
                 <Nav className="ms-auto">
-
-                    <Navbar.Text >Signed in as {currentUser.username}</Navbar.Text>
+                    <Navbar.Text className="navbar-user">Signed in as {currentUser.username}</Navbar.Text>
                     <Button type="button" onClick={handleClick}>Logout</Button>
                 </Nav>
                 </>
                 }
-
-            {/* </Container> */}
-             
-                  
-      
-               
 
             </Navbar>
         

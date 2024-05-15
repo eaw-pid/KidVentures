@@ -144,3 +144,35 @@ body {
   margin-left: 10px
 }
 
+.navbar-user {
+  border-style: solid;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+  margin-right: 1rem;
+}
+
+.custom-link {
+  border-style: solid;
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+.custom-dropdown-toggle {
+  background-color: transparent !important; 
+  color: blue !important; 
+  border: 1px solid blue !important; 
+}
+
+.activity-menu-nav{
+  background-color: white;
+}
+
+.nav-link-custom-link {
+  color: white !important;
+}
+
+

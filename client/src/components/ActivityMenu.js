@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { CategoryContext } from '../context/CategoryContext'
-import {NavDropdown, NavItem, Nav, Button, Dropdown} from 'react-bootstrap';
+import {Nav, Dropdown} from 'react-bootstrap';
  
 
 function ActivityMenu({setShow, dropdown, setDropdown, freeClick, setFreeClick, handleCalendarClick, clicked, setIsClicked}) {
@@ -13,12 +13,12 @@ function ActivityMenu({setShow, dropdown, setDropdown, freeClick, setFreeClick, 
     }
 
     function handleClick() {
-        // setIsClicked((clicked) => !clicked)
+       
         setShow(true)
     }
     return (
         <div>
-            <Nav fill variant="tabs" >                    
+            <Nav className="activity-menu-nav" fill variant="tabs" >                    
                 <Nav.Item>
                     <Nav.Link onClick={handleClick}>Add An Activity</Nav.Link>
                 </Nav.Item>
@@ -26,12 +26,12 @@ function ActivityMenu({setShow, dropdown, setDropdown, freeClick, setFreeClick, 
                     <Nav.Link onClick={handleCalendarClick}>View Calendar</Nav.Link>
                 </Nav.Item>
                 {/* <Nav.Item > */}
-                <Dropdown   onSelect={(eventKey) => {
+                <Dropdown    onSelect={(eventKey) => {
                     setDropdown(eventKey)
                     setFreeClick(false)}}>
-                        <Dropdown.Toggle>Search By Category</Dropdown.Toggle>
+                        <Dropdown.Toggle className="custom-dropdown-toggle">Search By Category</Dropdown.Toggle>
                         <Dropdown.Menu>
-                            <Dropdown.Item  eventKey="all">Search by Category</Dropdown.Item>
+                            <Dropdown.Item  eventKey="all">All</Dropdown.Item>
                             {categories.map((category) => (
                                 <Dropdown.Item key={category.id} eventKey={category.type}>{category.type}</Dropdown.Item>
                             ))}

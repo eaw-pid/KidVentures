@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { UserContext } from '../context/UserContext'
 import { SingleActivityContext } from "../context/SingleActivityContext"
 import MapComponent from "../components/MapComponent";
-import { Container } from 'react-bootstrap'
+import { Container, Button } from 'react-bootstrap'
 import { Card } from 'react-bootstrap';
 
 
@@ -41,11 +41,11 @@ function ActivityDetail() {
 
         <div className="single-activities-container">
             <Container>
-                <button  onClick={handleClick}>Back to All Events</button>
+                <Button variant="outline-primary" size="lg" onClick={handleClick}>Back to All Events</Button>
                 
-                <Card className='mt-5 mb-5'>
+                <Card className='mt-5 mb-5 pt-3 px-3'>
                     <Card.Title>{singleActivity.title}</Card.Title>
-                    <Card.Text>Description: {singleActivity.description}</Card.Text>
+                    <Card.Text><strong>Description: </strong> {singleActivity.description}</Card.Text>
                     <Card.Body>
 
                         <Card.Text><strong>Address:</strong></Card.Text>

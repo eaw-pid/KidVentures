@@ -98,7 +98,7 @@ function Activities () {
 })
 
     if (!currentUser) {
-        return <h1>You must be logged in to view this page.</h1>;
+        return <h1>Loading...</h1>;
     }
  
     return(

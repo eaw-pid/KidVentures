@@ -104,7 +104,7 @@ function ActivityList({activity}) {
                 }
                 return activityItem
             })
-            console.log(updatedActivities)
+            // console.log(updatedActivities)
             setActivities(updatedActivities)
             setEditReviewId(null)
             
